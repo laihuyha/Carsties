@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Linq;
-using System.Security.Cryptography;
 using AuctionService.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -25,12 +23,11 @@ namespace AuctionService.Data
                 Console.WriteLine("Database already seeded");
                 return;
             }
-            var randomPrice = new Random();
             Auction[] auctions = [
                 new Auction{
                     Id = Guid.NewGuid(),
                     Status = Status.Live,
-                    ReservePrice = randomPrice.Next(1000, 100000),
+                    ReservePrice = 50000,
                     Seller = "Bob",
                     AuctionEnd = DateTime.UtcNow.AddDays(10),
                     Item = new Item{
