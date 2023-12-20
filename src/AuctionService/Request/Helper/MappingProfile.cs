@@ -7,7 +7,7 @@ namespace AuctionService.Request.Helper
 {
     public class MappingProfile : Profile
     {
-        protected MappingProfile()
+        public MappingProfile()
         {
             CreateMap<Auction, AuctionDTO>().IncludeMembers(e => e.Item);
             CreateMap<Item, AuctionDTO>();
