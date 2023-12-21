@@ -7,7 +7,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ../db/pgdata:/var/lib/postgresql/data
+      - ./db/pgdata:/var/lib/postgresql/data
   mongodb:
     image: mongo
     environment:
@@ -16,7 +16,7 @@ services:
     ports: 
       - 27017:27017
     volumes:
-      - ../db/mongodb_data:/var/lib/mongodb/data
+      - ./db/mongodb_data:/var/lib/mongodb/data
 volumes:
   pgdata:
   mongodb_data:
