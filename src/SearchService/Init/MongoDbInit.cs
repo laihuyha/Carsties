@@ -14,7 +14,7 @@ namespace SearchService.Init
             this.configuration = configuration;
         }
 
-        public async Task Init()
+        public async Task Setup()
         {
             await DB.InitAsync("SearchDb", MongoClientSettings.FromConnectionString(configuration.GetConnectionString("MongoDb")));
 

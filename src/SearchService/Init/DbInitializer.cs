@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Entities;
 using SearchService.Models;
 
-namespace SearchService.Data
+namespace SearchService.Init
 {
     public class DbInitializer
     {

@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using SearchService.Data;
 using SearchService.Init;
 
 namespace SearchService.Extensions
@@ -14,7 +13,7 @@ namespace SearchService.Extensions
             try
             {
                 var mongoDbInit = new MongoDbInit(configuration);
-                await mongoDbInit.Init();
+                await mongoDbInit.Setup();
                 await DbInitializer.InitDb();
             }
             catch (Exception ex)
