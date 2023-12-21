@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using SearchService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,5 +17,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+#region Add Extensions
+await app.UseAppBuilderExtension(builder.Configuration);
+#endregion
 
 app.Run();
