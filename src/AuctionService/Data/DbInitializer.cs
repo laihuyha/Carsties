@@ -209,7 +209,7 @@ namespace AuctionService.Data
                 }
             ];
             auctionDbContext.Auctions.AddRange(auctions);
-            auctionDbContext.SaveChanges();
+            _ = auctionDbContext.SaveChanges();
         }
     }
 }

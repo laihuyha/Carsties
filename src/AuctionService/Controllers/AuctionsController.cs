@@ -47,8 +47,8 @@ namespace AuctionService.Controllers
             {
                 var auction = mapper.Map<Auction>(auctiondto);
                 auction.Seller = "";
-                context.Auctions.Add(auction);
-                await context.SaveChangesAsync();
+                _ = context.Auctions.Add(auction);
+                _ = await context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = auction.Id }, mapper.Map<AuctionDTO>(auction));
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace AuctionService.Controllers
                 auction.Item.Color = auctiondto.Color;
                 auction.Item.Mileage = auctiondto.Mileage;
 
-                context.Auctions.Update(auction);
+                _ = context.Auctions.Update(auction);
                 var result = await context.SaveChangesAsync();
 
                 return result > 0 ? Ok() : BadRequest("Error while updating");
@@ -92,7 +92,7 @@ namespace AuctionService.Controllers
 
                 if (auction.Seller == "") // Check if current user is the seller of the auction
                 {
-                    context.Auctions.Remove(auction);
+                    _ = context.Auctions.Remove(auction);
                 }
                 var result = await context.SaveChangesAsync();
                 return result > 0 ? Ok() : BadRequest("Error while deleting");

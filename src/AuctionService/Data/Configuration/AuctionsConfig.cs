@@ -8,10 +8,10 @@ namespace AuctionService.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Auction> builder)
         {
-            builder.HasIndex(a => new { a.Seller, a.AuctionEnd, a.Status })
+            _ = builder.HasIndex(a => new { a.Seller, a.AuctionEnd, a.Status })
             .HasDatabaseName("IX_Seller_AuctionEnd_Status_All_Asc");
 
-            builder.HasIndex(a => new { a.Seller, a.AuctionEnd, a.Status })
+            _ = builder.HasIndex(a => new { a.Seller, a.AuctionEnd, a.Status })
             .HasDatabaseName("IX_Seller_AuctionEnd_Status_All_Desc")
             .IsDescending(); //======> Introduce from EF.Core 7.0
         }
