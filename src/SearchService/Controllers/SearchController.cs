@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
 using SearchService.Models;
+using SearchService.Request.Helper;
 
 namespace SearchService.Controllers
 {
@@ -11,8 +12,9 @@ namespace SearchService.Controllers
     public class SearchController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<Item>>> SearchItem(string searchTerm, int pageNum = 1, int pageSize = 5)
+        public async Task<ActionResult<List<Item>>> SearchItem([FromBody] SearchParams searchParams)
         {
+            var (term, page, size, seller, winner, order, filter) = searchParams;
             var query = DB.PagedSearch<Item>().Sort(x => x.Ascending(a => a.Make));
 
             if (!string.IsNullOrEmpty(searchTerm))
