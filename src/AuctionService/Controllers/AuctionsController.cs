@@ -6,6 +6,7 @@ using AuctionService.Data;
 using AuctionService.DTO;
 using AuctionService.Entities;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,10 +26,16 @@ namespace AuctionService.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<AuctionDTO>>> GetAuctions()
+        public async Task<ActionResult<List<AuctionDTO>>> GetAuctions(string date)
         {
-            var auctions = context.Auctions.Include(e => e.Item).AsNoTracking().OrderByDescending(e => e.Item.Year).AsSplitQuery();
-            return mapper.Map<List<AuctionDTO>>(await auctions.ToListAsync());
+            var query = context.Auctions.AsNoTracking().OrderBy(e => e.Item.Make).AsQueryable();
+            if (!string.IsNullOrEmpty(date))
+            {
+                // for get the newer data if it has requested from the other services
+                query.Where(e => e.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) >= 0);
+            }
+
+            return await query.ProjectTo<AuctionDTO>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         [HttpGet("{id}")]
