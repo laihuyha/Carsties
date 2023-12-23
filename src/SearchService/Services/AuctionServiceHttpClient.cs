@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -10,23 +11,38 @@ namespace SearchService.Services
 {
     public class AuctionServiceHttpClient
     {
-        private readonly HttpClient client;
-        private readonly IConfiguration configuration;
+        private readonly HttpClient _client;
+        private readonly IConfiguration _configuration;
 
         public AuctionServiceHttpClient(HttpClient client, IConfiguration configuration)
         {
-            this.client = client;
-            this.configuration = configuration;
+            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         public async Task<List<Item>> GetItemsAsync()
         {
-            var LastUpdate = await DB.Find<Item, string>()
-                .Sort(e => e.Descending(x => x.UpdateAt))
-                .Project(a => a.UpdateAt.ToString())
-                .ExecuteAsync();
+            try
+            {
+                var lastUpdateTimestamp = await DB.Find<Item, string>()
+                    .Sort(e => e.Descending(x => x.UpdateAt))
+                    .Project(a => a.UpdateAt.ToString())
+                    .ExecuteAsync();
 
-            return await client.GetFromJsonAsync<List<Item>>(configuration["AuctionServiceUrl"] + "/api/auctions/all?date=" + LastUpdate);
+                var apiUrl = $"{_configuration["AuctionServiceUrl"]}/api/auctions/all?date={lastUpdateTimestamp}";
+
+                var items = await _client.GetFromJsonAsync<List<Item>>(apiUrl);
+
+                Console.WriteLine("Getting {0} items from auction service", items.Count);
+
+                return items ?? [];
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error when getting items: {ex.Message}");
+                return [];
+            }
         }
     }
 }
