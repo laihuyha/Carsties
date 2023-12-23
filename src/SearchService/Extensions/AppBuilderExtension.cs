@@ -14,7 +14,7 @@ namespace SearchService.Extensions
             {
                 var mongoDbInit = new MongoDbInit(configuration);
                 await mongoDbInit.Setup();
-                await DbInitializer.InitDb();
+                await DbInitializer.InitDb(app.ApplicationServices);
             }
             catch (Exception ex)
             {
