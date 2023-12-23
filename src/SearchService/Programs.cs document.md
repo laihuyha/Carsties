@@ -8,5 +8,5 @@ app.Lifetime.ApplicationStarted.Register(async () =>
     await app.UseAppBuilderExtension(builder.Configuration);
 });
 ```
-<br> using app lifetime for delay start synchronous data from Auction Service. `LifeTime.ApplicationStarted` triggered when the application host has fully started then we *register* use `Register` method for creating a lambda function inside callback extension method.
+<br> <br> Using app lifetime for delay start synchronous data from Auction Service. `LifeTime.ApplicationStarted` triggered when the application host has fully started then we *register* use `Register` method for creating a lambda function inside callback extension method.
 <p>
