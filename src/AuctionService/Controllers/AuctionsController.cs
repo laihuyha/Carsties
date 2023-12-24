@@ -32,7 +32,7 @@ namespace AuctionService.Controllers
             if (!string.IsNullOrEmpty(date))
             {
                 // for get the newer data if it has requested from the other services
-                query.Where(e => e.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) >= 0);
+                _ = query.Where(e => e.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) >= 0);
             }
 
             return await query.ProjectTo<AuctionDTO>(mapper.ConfigurationProvider).ToListAsync();

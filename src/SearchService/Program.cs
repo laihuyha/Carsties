@@ -1,21 +1,22 @@
-using System;
-using System.Net;
-using System.Net.Http;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Polly;
-using Polly.Extensions.Http;
 using SearchService.Extensions;
 using SearchService.Services;
+using SearchService.Services.Policy.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddHttpClient<AuctionServiceHttpClient>().AddPolicyHandler(GetPolicy());
+builder.Services.AddHttpClient<AuctionServiceHttpClient>().AddPolicyHandler(Resilient.GetPolicy());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) => { cfg.ConfigureEndpoints(context); });
+});
 
 var app = builder.Build();
 
@@ -30,15 +31,9 @@ app.MapControllers();
 // Config the lifetime of the application
 app.Lifetime.ApplicationStarted.Register(async () =>
 {
-    await app.UseAppBuilderExtension(builder.Configuration);
+    _ = await app.UseAppBuilderExtension(builder.Configuration);
 });
 
 #endregion
 
 app.Run();
-
-static IAsyncPolicy<HttpResponseMessage> GetPolicy()
-{
-    return HttpPolicyExtensions.HandleTransientHttpError().OrResult(msg => msg.StatusCode == HttpStatusCode.NotFound)
-    .WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(3));
-}
