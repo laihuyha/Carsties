@@ -87,6 +87,8 @@ namespace AuctionService.Controllers
                 auction.Item.Mileage = auctiondto.Mileage;
 
                 _ = context.Auctions.Update(auction);
+                await publishEndpoint.Publish(mapper.Map<AuctionUpdated>(auction.Item));
+
                 var result = await context.SaveChangesAsync();
 
                 return result > 0 ? Ok() : BadRequest("Error while updating");
@@ -108,6 +110,7 @@ namespace AuctionService.Controllers
                 if (auction.Seller == "") // Check if current user is the seller of the auction
                 {
                     _ = context.Auctions.Remove(auction);
+                    await publishEndpoint.Publish(new AuctionDeleted { Id = auction.Id.ToString() });
                 }
                 var result = await context.SaveChangesAsync();
                 return result > 0 ? Ok() : BadRequest("Error while deleting");

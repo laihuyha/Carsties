@@ -9,6 +9,7 @@ namespace SearchService.Request.Helper
         public MappingProfie()
         {
             CreateMap<AuctionCreated, Item>().ForMember(e => e.ID, opt => opt.MapFrom(x => x.Id));
+            CreateMap<AuctionUpdated, Item>().ForMember(e => e.ID, opt => opt.MapFrom(x => x.Id));
         }
     }
 }
