@@ -1,5 +1,6 @@
 using System.Reflection;
 using AuctionService.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Data
@@ -14,6 +15,9 @@ namespace AuctionService.Data
         {
             base.OnModelCreating(modelBuilder);
             _ = modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
 
         public DbSet<Auction> Auctions { get; set; }

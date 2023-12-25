@@ -58,11 +58,11 @@ namespace AuctionService.Controllers
             {
                 var auction = mapper.Map<Auction>(auctiondto);
                 auction.Seller = "";
+                _ = context.Auctions.Add(auction);
 
                 var newAuction = mapper.Map<AuctionDTO>(auction);
                 await publishEndpoint.Publish(mapper.Map<AuctionCreated>(newAuction));
 
-                _ = context.Auctions.Add(auction);
                 _ = await context.SaveChangesAsync();
                 return CreatedAtAction(nameof(Get), new { id = auction.Id }, newAuction);
             }
