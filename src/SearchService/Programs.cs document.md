@@ -33,4 +33,3 @@ Event-driven, Message Communication and in this project we use Message Communica
     <dd>Explicit configuration for each endpoint. This is configuration calledback, etc... and use it for specific endpoints with consumer</dd>
   </dl>
 - `.UseMessageRetry()` this will retry when consumer fail in something. <br> 
-
