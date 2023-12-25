@@ -23,7 +23,7 @@ Event-driven, Message Communication and in this project we use Message Communica
 - `await builder.Services.UseAppServiceExtension();` Using Extension for adding and configuring service into container.
   > Then go to `MassTransitServiceConfig.cs` file.
   <dl>
-    <dt>***AddConsumersFromNamespaceContaining***</dt>
+    <dt>AddConsumersFromNamespaceContaining</dt>
     <dd>Every Consumer has a namespace or deepr namespace will be added into.</dd>
     <dt>***SetEndpointNameFormatter***</dt>
     <dd>Something like add prefix for endpoint name</dd>
