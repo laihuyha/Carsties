@@ -24,12 +24,8 @@ namespace SearchService.Consumer
             if (item != null)
             {
                 await DB.Update<Item>().MatchID(context.Message.Id)
-                    .Modify(x => x.Make, context.Message.Make)
-                    .Modify(x => x.Model, context.Message.Model)
-                    .Modify(x => x.Year, context.Message.Year)
-                    .Modify(x => x.Color, context.Message.Color)
-                    .Modify(x => x.Mileage, context.Message.Mileage)
-                    .ExecuteAsync();
+                .ModifyOnly(x => new { x.Make, x.Model, x.Color, x.Year, x.Mileage }, item)
+                .ExecuteAsync();
             }
             else
             {
