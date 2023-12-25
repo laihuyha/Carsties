@@ -22,8 +22,6 @@ Event-driven, Message Communication and in this project we use Message Communica
   > **Ref :** [Mass Transit Spiderum](https://spiderum.com/bai-dang/Masstransit-Lam-chu-message-queue-kfCOubTdSVwy)<br>
 - `await builder.Services.UseAppServiceExtension();` Using Extension for adding and configuring service into container.
   > Then go to `MassTransitServiceConfig.cs` file.
-  >> `Config` method
-  >>> <br>
   <dl>
     <dt>***AddConsumersFromNamespaceContaining***</dt>
     <dd>Every Consumer has a namespace or deepr namespace will be added into.</dd>
