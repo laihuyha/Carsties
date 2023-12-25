@@ -1,4 +1,5 @@
 using System;
+using AuctionService.Consumer;
 using AuctionService.Data;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
@@ -20,8 +21,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddEntityFrameworkOutbox<AuctionDbContext>(o => {
-        o.QueryDelay = TimeSpan.FromSeconds(10);
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedFaultConsumer>();
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("auction", false));
+    x.AddEntityFrameworkOutbox<AuctionDbContext>(o =>
+    {
+        o.QueryDelay = TimeSpan.FromSeconds(30);
         o.UsePostgres();
         o.UseBusOutbox();
     });
