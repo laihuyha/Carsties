@@ -20,7 +20,7 @@ namespace SearchService.Consumer
             var item = await DB.Find<Item>().OneAsync(context.Message.Id);
             if (item != null)
             {
-                await item.DeleteAsync();
+                _ = await item.DeleteAsync();
             }
             else
             {

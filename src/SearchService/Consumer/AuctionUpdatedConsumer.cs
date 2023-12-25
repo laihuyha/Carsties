@@ -23,7 +23,7 @@ namespace SearchService.Consumer
             var item = await DB.Find<Item>().OneAsync(context.Message.Id);
             if (item != null)
             {
-                await DB.Update<Item>().MatchID(context.Message.Id)
+                _ = await DB.Update<Item>().MatchID(context.Message.Id)
                 .ModifyOnly(x => new { x.Make, x.Model, x.Color, x.Year, x.Mileage }, item)
                 .ExecuteAsync();
             }

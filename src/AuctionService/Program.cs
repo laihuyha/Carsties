@@ -26,7 +26,7 @@ builder.Services.AddMassTransit(x =>
     x.AddEntityFrameworkOutbox<AuctionDbContext>(o =>
     {
         o.QueryDelay = TimeSpan.FromSeconds(30);
-        o.UsePostgres();
+        _ = o.UsePostgres();
         o.UseBusOutbox();
     });
     x.UsingRabbitMq((context, cfg) => { cfg.ConfigureEndpoints(context); });
