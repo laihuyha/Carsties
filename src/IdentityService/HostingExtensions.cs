@@ -1,6 +1,7 @@
 using Duende.IdentityServer;
 using IdentityService.Data;
 using IdentityService.Models;
+using IdentityService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +31,9 @@ internal static class HostingExtensions
             options.Events.RaiseSuccessEvents = true;
             // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
             // options.EmitStaticAudienceClaim = true;
-        }).AddInMemoryIdentityResources(Config.IdentityResources).AddInMemoryApiScopes(Config.ApiScopes).AddInMemoryClients(Config.Clients).AddAspNetIdentity<ApplicationUser>();
+        })
+        .AddInMemoryIdentityResources(Config.IdentityResources).AddInMemoryApiScopes(Config.ApiScopes).AddInMemoryClients(Config.Clients).AddAspNetIdentity<ApplicationUser>()
+        .AddProfileService<CustomProfileService>();
 
         builder.Services.ConfigureApplicationCookie(o => o.Cookie.SameSite = SameSiteMode.Lax);
 
