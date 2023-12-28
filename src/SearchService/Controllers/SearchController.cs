@@ -49,8 +49,8 @@ namespace SearchService.Controllers
             _ = query.PageSize(searchParams.PageSize);
 
             // Cause ExcuteAsync will return ValueTuple<Results, int, int> so we can use like this.
-            var (Results, TotalCount, PageCount) = await query.PageNumber(searchParams.PageNumber).PageSize(searchParams.PageSize).ExecuteAsync();
-            return Ok(new { results = Results, pageCount = PageCount, totalCount = TotalCount });
+            var (results, totalCount, pageCount) = await query.PageNumber(searchParams.PageNumber).PageSize(searchParams.PageSize).ExecuteAsync();
+            return Ok(new { results, pageCount, totalCount });
         }
     }
 }

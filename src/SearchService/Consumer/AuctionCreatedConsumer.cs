@@ -10,18 +10,18 @@ namespace SearchService.Consumer
 {
     public class AuctionCreatedConsumer : IConsumer<AuctionCreated>
     {
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
         public AuctionCreatedConsumer(IMapper mapper)
         {
-            this.mapper = mapper;
+            _mapper = mapper;
         }
 
         public async Task Consume(ConsumeContext<AuctionCreated> context)
         {
             Console.WriteLine("===> Consuming auction created: {0}", context.Message.Id);
 
-            var item = mapper.Map<Item>(context.Message);
+            var item = _mapper.Map<Item>(context.Message);
             await item.SaveAsync();
         }
     }
