@@ -1,8 +1,6 @@
 using System;
-using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using SearchService.Consumer;
 using SearchService.Extensions;
 using SearchService.Services;
 using SearchService.Services.Policy.Handler;

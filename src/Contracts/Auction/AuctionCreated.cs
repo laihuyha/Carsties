@@ -1,6 +1,6 @@
 using System;
 
-namespace Contracts.Auction 
+namespace Contracts.Auction
 {
     public class AuctionCreated
     {
