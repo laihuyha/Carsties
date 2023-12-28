@@ -10,11 +10,11 @@ namespace SearchService.Consumer
 {
     public class AuctionUpdatedConsumer : IConsumer<AuctionUpdated>
     {
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
         public AuctionUpdatedConsumer(IMapper mapper)
         {
-            this.mapper = mapper;
+            _mapper = mapper;
         }
 
         public async Task Consume(ConsumeContext<AuctionUpdated> context)
