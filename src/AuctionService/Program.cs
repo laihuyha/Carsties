@@ -30,7 +30,17 @@ builder.Services.AddMassTransit(x =>
         _ = o.UsePostgres();
         o.UseBusOutbox();
     });
-    x.UsingRabbitMq((context, cfg) => { cfg.ConfigureEndpoints(context); });
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.ConfigureEndpoints(context);
+
+        // Config for publish app can use
+        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host =>
+        {
+            host.Username(builder.Configuration.GetValue("RabbitMq:Username", "guest"));
+            host.Password(builder.Configuration.GetValue("RabbitMq:Password", "guest"));
+        });
+    });
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
