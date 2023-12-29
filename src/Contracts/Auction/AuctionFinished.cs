@@ -6,6 +6,6 @@ namespace Contracts.Auction
         public string AuctionId { get; set; }
         public string Winner { get; set; }
         public string Seller { get; set; }
-        public string Amount { get; set; }
+        public int Amount { get; set; }
     }
 }
