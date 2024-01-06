@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SearchService.Consumer;
 
@@ -8,16 +9,18 @@ namespace SearchService.Extensions.MassTransit
 {
     public class MassTransitServiceConfig
     {
-        private readonly IServiceCollection services;
+        private readonly IServiceCollection _services;
+        private readonly IConfiguration _configuration;
 
-        public MassTransitServiceConfig(IServiceCollection services)
+        public MassTransitServiceConfig(IServiceCollection services, IConfiguration configuration)
         {
-            this.services = services;
+            _services = services;
+            _configuration = configuration;
         }
 
         public async Task Config()
         {
-            _ = services.AddMassTransit(x =>
+            _ = _services.AddMassTransit(x =>
             {
                 x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
@@ -39,7 +42,23 @@ namespace SearchService.Extensions.MassTransit
                         e.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
                         e.ConfigureConsumer<AuctionDeletedConsumer>(context);
                     });
+                    cfg.ReceiveEndpoint("search-auction-finished", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
+                        e.ConfigureConsumer<AuctionFinishedConsumer>(context);
+                    });
+                    cfg.ReceiveEndpoint("search-bid-placed", e =>
+                    {
+                        e.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
+                        e.ConfigureConsumer<BidPlacedConsumer>(context);
+                    });
                     cfg.ConfigureEndpoints(context);
+                    // Config for publish app can use
+                    cfg.Host(_configuration["RabbitMq:Host"], "/", host =>
+                    {
+                        host.Username(_configuration.GetValue("RabbitMq:Username", "guest"));
+                        host.Password(_configuration.GetValue("RabbitMq:Password", "guest"));
+                    });
                 });
             });
             await Task.CompletedTask;

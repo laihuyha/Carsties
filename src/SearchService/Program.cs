@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 #region Using custom services extension
-await builder.Services.UseAppServiceExtension();
+await builder.Services.UseAppServiceExtension(builder.Configuration);
 #endregion Using custom services extension
 
 var app = builder.Build();
