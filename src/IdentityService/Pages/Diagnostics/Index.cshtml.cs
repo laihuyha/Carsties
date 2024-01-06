@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using System;
 
 namespace IdentityService.Pages.Diagnostics;
 
@@ -15,7 +18,10 @@ public class Index : PageModel
 
     public async Task<IActionResult> OnGet()
     {
-        var localAddresses = new string[] { "127.0.0.1", "::1", HttpContext.Connection.LocalIpAddress.ToString() };
+        using var scope = HttpContext.RequestServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        var cfg = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+        var allowedIPAddress = cfg.GetSection("AllowedIPAddress").Value.Split(";").ToArray();
+        var localAddresses = new string[] { "127.0.0.1", "::1", HttpContext.Connection.LocalIpAddress.ToString() }.Union(allowedIPAddress);
         if (!localAddresses.Contains(HttpContext.Connection.RemoteIpAddress.ToString()))
         {
             return NotFound();

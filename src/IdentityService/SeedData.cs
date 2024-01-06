@@ -14,13 +14,13 @@ namespace IdentityService;
 
 public class SeedData
 {
-    public static void EnsureSeedData(WebApplication app)
+    public static async void EnsureSeedData(WebApplication app)
     {
         using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            context.Database.Migrate();
+            await context.Database.MigrateAsync();
 
             var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             if (userMgr.Users.Any()) return;
