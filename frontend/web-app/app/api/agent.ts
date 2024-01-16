@@ -4,18 +4,20 @@ export const identityUrl = process.env.IDENTITY_SERVICE_URL;
 
 const handleResponse = (response: Response) => {
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    handleError(response.statusText);
   }
   return response.json();
+};
+
+const handleError = (error: any) => {
+  throw new Error(error);
 };
 
 export const agent = {
   get: <T>(url: string): Promise<T> =>
     fetch(baseUrl + url)
       .then(handleResponse)
-      .catch((error) => {
-        throw new Error(error);
-      }),
+      .catch(handleError),
 
   post: <T>(url: string, body: {}): Promise<T> =>
     fetch(baseUrl + url, {
@@ -26,9 +28,7 @@ export const agent = {
       body: JSON.stringify(body),
     })
       .then(handleResponse)
-      .catch((error) => {
-        throw new Error(error);
-      }),
+      .catch(handleError),
 
   put: <T>(url: string, body: {}): Promise<T> =>
     fetch(baseUrl + url, {
@@ -39,14 +39,10 @@ export const agent = {
       body: JSON.stringify(body),
     })
       .then(handleResponse)
-      .catch((error) => {
-        throw new Error(error);
-      }),
+      .catch(handleError),
 
   del: <T>(url: string): Promise<T> =>
     fetch(baseUrl + url, { method: "DELETE" })
       .then(handleResponse)
-      .catch((error) => {
-        throw new Error(error);
-      }),
+      .catch(handleError),
 };
