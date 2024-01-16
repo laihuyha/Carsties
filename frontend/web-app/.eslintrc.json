@@ -3,7 +3,12 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "next"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -18,6 +23,7 @@
     "sort-imports": ["warn", "always"],
     "camelcase": ["error"],
     "no-await-in-loop": ["warn"],
-    "no-duplicate-imports": ["error"]
+    "no-duplicate-imports": ["error"],
+    "no-unused-vars": ["warn"]
   }
 }

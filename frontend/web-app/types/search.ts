@@ -1,4 +1,4 @@
-export interface AuctionDTO {
+export type Item = {
   id: string;
   reservePrice: number;
   seller: string;
@@ -15,4 +15,4 @@ export interface AuctionDTO {
   color: string;
   mileage: number;
   imageUrl: string;
-}
+};
