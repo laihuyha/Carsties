@@ -42,4 +42,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 # Zustand create issue
 
 `create` mehtod is deprecated use `createWithEqualityFn`
--[Issue](https://github.com/pmndrs/zustand/discussions/1937) - RFC: deprecate equalityFn towards v5 (migration path exists)
+- [Issue](https://github.com/pmndrs/zustand/discussions/1937) - RFC: deprecate equalityFn towards v5 (migration path exists)
