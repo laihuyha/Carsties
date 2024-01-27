@@ -1,15 +1,15 @@
 "use client";
 
+import { search } from "@/api/services/search.service";
 import { useParamsStore } from "@/hooks/useParamStore";
 import { PagedResult } from "@/types";
 import { Item } from "@/types/search";
 import { useEffect, useState } from "react";
-import { search } from "../api/services/search.service";
-import { AppPagination } from "../components/AppPagination";
-import { Empty } from "../components/Empty";
+import { AppPagination } from "../_components/AppPagination";
+import { Empty } from "../_components/Empty";
+import { Loading } from "../_components/Loading";
 import { AuctionCard } from "./AuctionCard";
 import { Filters } from "./Filters";
-import { Loading } from "../components/Loading";
 
 export const Listings = () => {
   const [data, setData] = useState<PagedResult<Item>>();
