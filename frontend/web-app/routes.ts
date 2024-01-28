@@ -16,6 +16,6 @@ export const authRoutes: string[] = [];
  * Routes will be prefixed with this for authentication purposes
  * @type {string}
  */
-export const apiRoutePrefix = "/api/auth";
+export const apiRoutePrefix: string = "/api/auth";
 
 export const DEFAUTLT_LOGGED_IN_REDIRECT = "/";
