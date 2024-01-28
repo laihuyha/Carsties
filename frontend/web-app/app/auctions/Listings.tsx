@@ -1,6 +1,5 @@
 "use client";
 
-import { search } from "@/api/services/search.service";
 import { useParamsStore } from "@/hooks/useParamStore";
 import { PagedResult } from "@/types";
 import { Item } from "@/types/search";
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AppPagination } from "../_components/AppPagination";
 import { Empty } from "../_components/Empty";
 import { Loading } from "../_components/Loading";
+import { search } from "../api/services/search.service";
 import { AuctionCard } from "./AuctionCard";
 import { Filters } from "./Filters";
 

@@ -6,12 +6,12 @@ namespace IdentityService;
 
 public static class Config
 {
-    public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[] { new IdentityResources.OpenId(), new IdentityResources.Profile() };
+    public static IEnumerable<IdentityResource> IdentityResources => [new IdentityResources.OpenId(), new IdentityResources.Profile()];
 
-    public static IEnumerable<ApiScope> ApiScopes => new ApiScope[] { new("auctionApp", "Auction app full access"), new("scope2") };
+    public static IEnumerable<ApiScope> ApiScopes => [new("auctionApp", "Auction app full access"), new("scope2")];
 
-    public static IEnumerable<Client> Clients => new Client[]
-    {
+    public static IEnumerable<Client> Clients =>
+    [
         new() {
             ClientId = "postman",
             ClientName = "Postman",
@@ -26,10 +26,11 @@ public static class Config
             ClientSecrets = {new Secret("secret".Sha256())},
             AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
             RequirePkce = false,
-            RedirectUris = { "https://localhost:3000/api/auth/callback/id-server" },
+            RedirectUris = { "http://localhost:3000/api/auth/callback/id-server" },
             AllowOfflineAccess = true,
             AllowedScopes = {"openid", "profile", "auctionApp"},
-            AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds
+            AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,
+            AlwaysIncludeUserClaimsInIdToken = true,
         }
-    };
+    ];
 }
