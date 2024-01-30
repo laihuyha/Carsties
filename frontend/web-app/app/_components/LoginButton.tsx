@@ -3,7 +3,7 @@
 import { Button } from "flowbite-react";
 import { signIn } from "next-auth/react";
 
-export default function LoginButton() {
+export const LoginButton = () => {
   return (
     <Button
       outline
@@ -13,4 +13,4 @@ export default function LoginButton() {
       }}
     />
   );
-}
+};

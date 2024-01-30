@@ -2,18 +2,23 @@
 
 import { useParamsStore } from "@/hooks/useParamStore";
 import { Button } from "flowbite-react";
+import { signIn } from "next-auth/react";
 import { Heading } from "./Heading";
 
 type Props = {
   title?: string;
   subtitle?: string;
   showReset?: boolean;
+  showLogin?: boolean;
+  callbackUrl?: string;
 };
 
 export const Empty = ({
   title = "No match for this filter",
   subtitle = "Try changing or removing some of your filters",
   showReset,
+  showLogin,
+  callbackUrl,
 }: Props) => {
   const reset = useParamsStore((state) => state.reset);
   return (
@@ -22,6 +27,12 @@ export const Empty = ({
       <div className="mt-4">
         {showReset && (
           <Button outline onClick={reset} children="Remove filter" />
+        )}
+        {showLogin && (
+          <Button
+            onClick={() => signIn("id-server", { callbackUrl })}
+            children="Login"
+          />
         )}
       </div>
     </div>

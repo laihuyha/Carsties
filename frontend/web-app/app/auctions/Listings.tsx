@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { AppPagination } from "../_components/AppPagination";
 import { Empty } from "../_components/Empty";
 import { Loading } from "../_components/Loading";
-import { search } from "../api/services/search.service";
+import { search } from "../actions/search-action";
 import { AuctionCard } from "./AuctionCard";
 import { Filters } from "./Filters";
 
