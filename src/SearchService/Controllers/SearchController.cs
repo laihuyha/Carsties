@@ -33,7 +33,7 @@ namespace SearchService.Controllers
 
             query = searchParams.OrderBy?.ToUpper() switch
             {
-                nameof(SearchOrderBy.MAKE) => query.Sort(x => x.Ascending(a => a.Make)),
+                nameof(SearchOrderBy.MAKE) => query.Sort(x => x.Ascending(a => a.Make)).Sort(e => e.Ascending(b => b.Model)),
                 nameof(SearchOrderBy.NEW) => query.Sort(x => x.Ascending(a => a.CreatedAt)),
                 _ => query.Sort(x => x.Ascending(a => a.AuctionEnd)),
             };

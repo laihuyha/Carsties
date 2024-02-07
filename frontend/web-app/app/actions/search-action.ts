@@ -2,7 +2,7 @@
 
 import { PagedResult, SearchParams } from "@/types";
 import { Item } from "@/types/search";
-import { agent } from "../agent";
+import { agent } from "../api/auth/agent";
 
 export const search = async (searchParams?: SearchParams) => {
   let params = new URLSearchParams();
