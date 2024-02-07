@@ -1,7 +1,8 @@
 "use client";
 
+import { useCommonStore } from "@/hooks/useCommonStore";
 import { useParamsStore } from "@/hooks/useParamStore";
-import { PagedResult } from "@/types";
+import { PagedResult, SearchParams } from "@/types";
 import { Item } from "@/types/search";
 import { useEffect, useState } from "react";
 import { AppPagination } from "../_components/AppPagination";
@@ -13,7 +14,6 @@ import { Filters } from "./Filters";
 
 export const Listings = () => {
   const [data, setData] = useState<PagedResult<Item>>();
-  const [loading, setLoading] = useState(true);
   const params = useParamsStore((state) => ({
     pageNumber: state.pageNumber,
     pageSize: state.pageSize,
@@ -21,19 +21,26 @@ export const Listings = () => {
     orderBy: state.orderBy,
     filterBy: state.filterBy,
   }));
+  const loading = useCommonStore((state) => state.loading);
 
   const setParams = useParamsStore((state) => state.setParams);
+  const setLoading = useCommonStore((state) => state.setLoading);
 
   const setPageNumber = (pageNumber: number) => {
     setParams({ pageNumber });
   };
 
-  useEffect(() => {
+  const searchWithParams = (params: SearchParams) => {
+    setLoading(true);
     search(params)
       .then((data) => {
         setData(data);
       })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    searchWithParams(params);
   }, [params, setData]);
 
   if (loading) return <Loading loading={loading} />;

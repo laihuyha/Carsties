@@ -34,7 +34,7 @@ const dropdownAction: DropdownItemPropsExtends[] = [
   },
   {
     icon: AiFillCar,
-    href: "/",
+    href: "/auctions/create",
     isLink: true,
     children: "Sell my car",
   },

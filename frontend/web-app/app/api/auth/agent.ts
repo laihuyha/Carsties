@@ -4,6 +4,10 @@ export const identityUrl = process.env.IDENTITY_SERVICE_URL;
 
 const baseUrl = process.env.GATE_WAY_SERVICE_URI;
 
+const fetchOptions: RequestInit = {
+  cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+};
+
 const handleResponse = (response: Response) => {
   if (!response.ok) {
     handleError(response.statusText);
@@ -53,6 +57,7 @@ export const agent = {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
     })
       .then(handleResponse)
       .catch(handleError),
@@ -64,6 +69,7 @@ export const agent = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
       body: JSON.stringify(body),
     })
       .then(handleResponse)
@@ -76,6 +82,7 @@ export const agent = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
       body: JSON.stringify(body),
     })
       .then(handleResponse)
@@ -88,6 +95,7 @@ export const agent = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
     })
       .then(handleResponse)
       .catch(handleError),
