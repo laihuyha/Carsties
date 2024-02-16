@@ -1,7 +1,7 @@
 "use server";
 
 import { Item, ItemDTO } from "@/types/search";
-import { agent } from "../api/auth/agent";
+import { agent } from "../api/agent";
 
 const all = async () => {
   const res = await agent.get<Item[]>("/auctions/all");
