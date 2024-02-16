@@ -1,4 +1,4 @@
-import { getTokenWorkaround } from "@/app/actions/auth-actions";
+import { getTokenWorkaround } from "@/app/_actions/auth-actions";
 
 const baseUrl = process.env.GATE_WAY_SERVICE_URI;
 
