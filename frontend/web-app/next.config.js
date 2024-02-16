@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/photo/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.facebook.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     minimumCacheTTL: 120,
     dangerouslyAllowSVG: true,

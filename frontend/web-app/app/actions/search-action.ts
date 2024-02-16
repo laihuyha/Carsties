@@ -12,6 +12,7 @@ export const search = async (searchParams?: SearchParams) => {
     return res;
   }
   Object.entries(searchParams).forEach(([key, value]) => {
+    if (value == null) return;
     if (value.toString() !== "") params.append(key, value.toString());
   });
   res = await agent.get<PagedResult<Item>>(`/search?${params.toString()}`);

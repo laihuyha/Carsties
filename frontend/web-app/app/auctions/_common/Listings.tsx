@@ -1,14 +1,14 @@
 "use client";
 
+import { AppPagination } from "@/app/_components/AppPagination";
+import { Empty } from "@/app/_components/Empty";
+import { Loading } from "@/app/_components/Loading";
+import { search } from "@/app/actions/search-action";
 import { useCommonStore } from "@/hooks/useCommonStore";
 import { useParamsStore } from "@/hooks/useParamStore";
 import { PagedResult, SearchParams } from "@/types";
 import { Item } from "@/types/search";
 import { useEffect, useState } from "react";
-import { AppPagination } from "../_components/AppPagination";
-import { Empty } from "../_components/Empty";
-import { Loading } from "../_components/Loading";
-import { search } from "../actions/search-action";
 import { AuctionCard } from "./AuctionCard";
 import { Filters } from "./Filters";
 
@@ -20,6 +20,8 @@ export const Listings = () => {
     searchTerm: state.searchTerm,
     orderBy: state.orderBy,
     filterBy: state.filterBy,
+    seller: state.seller,
+    winner: state.winner,
   }));
   const loading = useCommonStore((state) => state.loading);
 
@@ -41,7 +43,7 @@ export const Listings = () => {
 
   useEffect(() => {
     searchWithParams(params);
-  }, [params, setData]);
+  }, [params]);
 
   if (loading) return <Loading loading={loading} />;
 

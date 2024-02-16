@@ -16,3 +16,14 @@ export type Item = {
   mileage: number;
   imageUrl: string;
 };
+
+export type ItemDTO = {
+  make: string;
+  model: string;
+  year: number;
+  color: string;
+  mileage: number;
+  imageUrl: string;
+  reservePrice: number;
+  auctionEnd: Date;
+};
