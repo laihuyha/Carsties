@@ -9,7 +9,11 @@ export const publicRoutes: string[] = ["/"];
  * These routes will redirect to the login page first if not authenticated
  * @type {string[]}
  */
-export const authRoutes: string[] = ["/session"];
+export const authRoutes: string[] = [
+  "/session",
+  "/auctions/create",
+  "/auctions/update",
+];
 
 /**
  * The prefix of the API routes
