@@ -24,21 +24,6 @@ namespace AuctionService.Data
                 return;
             }
             Auction[] auctions = [
-                new Auction{
-                    Id = Guid.NewGuid(),
-                    Status = Status.Live,
-                    ReservePrice = 50000,
-                    Seller = "Bob",
-                    AuctionEnd = DateTime.UtcNow.AddDays(10),
-                    Item = new Item{
-                        Make = "Ford",
-                        Model = "Mustang",
-                        Color = "Red",
-                        Mileage = 50000,
-                        Year = 2020,
-                        ImageUrl="",
-                    }
-                },
                 new Auction
                 {
                     Id = Guid.Parse("afbee524-5972-4075-8800-7d1f9d7b0a0c"),

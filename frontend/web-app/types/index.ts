@@ -10,4 +10,6 @@ export type SearchParams = {
   searchTerm: string;
   filterBy: string;
   orderBy: string;
+  seller?: string | null;
+  winner?: string | null;
 };

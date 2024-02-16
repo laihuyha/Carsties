@@ -1,16 +1,23 @@
 "use server";
 
-import { Item } from "@/types/search";
+import { Item, ItemDTO } from "@/types/search";
 import { agent } from "../api/auth/agent";
 
 const all = async () => {
   const res = await agent.get<Item[]>("/auctions/all");
   return res;
 };
+
 const get = async (id: string) => {
   const res = await agent.get<Item>(`/auctions/${id}`);
   return res;
 };
+
+const create = async (data: ItemDTO) => {
+  const res = await agent.post<Item>("/auctions", data);
+  return res;
+};
+
 const update = async (id: string) => {
   // test
   const data = {
@@ -20,4 +27,5 @@ const update = async (id: string) => {
   return res;
 };
 
-export { all, get, update };
+export { all, create, get, update };
+

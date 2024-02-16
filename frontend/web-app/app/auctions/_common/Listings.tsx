@@ -1,40 +1,49 @@
 "use client";
 
+import { AppPagination } from "@/app/_components/AppPagination";
+import { Empty } from "@/app/_components/Empty";
+import { Loading } from "@/app/_components/Loading";
+import { search } from "@/app/_actions/search-action";
+import { useCommonStore } from "@/hooks/useCommonStore";
 import { useParamsStore } from "@/hooks/useParamStore";
-import { PagedResult } from "@/types";
+import { PagedResult, SearchParams } from "@/types";
 import { Item } from "@/types/search";
 import { useEffect, useState } from "react";
-import { AppPagination } from "../_components/AppPagination";
-import { Empty } from "../_components/Empty";
-import { Loading } from "../_components/Loading";
-import { search } from "../actions/search-action";
 import { AuctionCard } from "./AuctionCard";
 import { Filters } from "./Filters";
 
 export const Listings = () => {
   const [data, setData] = useState<PagedResult<Item>>();
-  const [loading, setLoading] = useState(true);
   const params = useParamsStore((state) => ({
     pageNumber: state.pageNumber,
     pageSize: state.pageSize,
     searchTerm: state.searchTerm,
     orderBy: state.orderBy,
     filterBy: state.filterBy,
+    seller: state.seller,
+    winner: state.winner,
   }));
+  const loading = useCommonStore((state) => state.loading);
 
   const setParams = useParamsStore((state) => state.setParams);
+  const setLoading = useCommonStore((state) => state.setLoading);
 
   const setPageNumber = (pageNumber: number) => {
     setParams({ pageNumber });
   };
 
-  useEffect(() => {
+  const searchWithParams = (params: SearchParams) => {
+    setLoading(true);
     search(params)
       .then((data) => {
         setData(data);
       })
       .finally(() => setLoading(false));
-  }, [params, setData]);
+  };
+
+  useEffect(() => {
+    searchWithParams(params);
+  }, [params]);
 
   if (loading) return <Loading loading={loading} />;
 

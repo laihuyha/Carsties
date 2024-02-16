@@ -36,7 +36,6 @@ export async function middleware(request: NextRequest) {
   // }
 
   if (!isLoggedIn && !isPublicRoute) {
-    console.log("1");
     return NextResponse.redirect(
       new URL(
         `/api/auth/signin/?${new URLSearchParams({

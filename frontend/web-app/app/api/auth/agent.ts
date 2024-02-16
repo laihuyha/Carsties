@@ -1,39 +1,37 @@
-import { getTokenWorkaround } from "@/app/actions/auth-actions";
-
-export const identityUrl = process.env.IDENTITY_SERVICE_URL;
+import { getTokenWorkaround } from "@/app/_actions/auth-actions";
 
 const baseUrl = process.env.GATE_WAY_SERVICE_URI;
 
-const handleResponse = (response: Response) => {
-  if (!response.ok) {
-    handleError(response.statusText);
+const fetchOptions: RequestInit = {
+  cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+};
+
+const handleResponse = async (response: Response) => {
+  const text = await response.text();
+  // const data = text && JSON.parse(text);
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    data = text;
   }
-  return response.json();
+
+  if (response.ok) {
+    return data || response.statusText;
+  } else {
+    const error = {
+      status: response.status,
+      message:
+        typeof data === "string" && data.length > 0
+          ? data
+          : response.statusText,
+    };
+    return { error };
+  }
 };
 
 const handleError = (error: any) => {
-  if (error instanceof Response) {
-    // Check if the response has a body
-    const contentType = error.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      // Attempt to parse the JSON body
-      return error
-        .json()
-        .then((parsedError) => {
-          throw new Error(parsedError.message || error.statusText);
-        })
-        .catch(() => {
-          // If parsing fails, throw an error with the status text
-          throw new Error(error.statusText);
-        });
-    } else {
-      // If there's no JSON body, throw an error with the status text
-      throw new Error(error.statusText);
-    }
-  } else {
-    // If the error is not a Response object, throw an error with the error itself
-    console.log(JSON.stringify(error));
-  }
+  return { error };
 };
 
 const getToken = async () => {
@@ -53,33 +51,44 @@ export const agent = {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
     })
       .then(handleResponse)
       .catch(handleError),
 
-  post: async <T>(url: string, body: {}): Promise<T> =>
-    fetch(baseUrl + url, {
+  post: async <T>(url: string, body: {}): Promise<T> => {
+    const token = await getToken();
+    const headers = { "Content-type": "application/json" } as any;
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    return fetch(baseUrl + url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${await getToken()}`,
-      },
+      headers,
+      ...fetchOptions,
       body: JSON.stringify(body),
     })
       .then(handleResponse)
-      .catch(handleError),
+      .catch(handleError);
+  },
 
-  put: async <T>(url: string, body: {}): Promise<T> =>
-    fetch(baseUrl + url, {
+  put: async <T>(url: string, body: {}): Promise<T> => {
+    const token = await getToken();
+    const headers = { "Content-type": "application/json" } as any;
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    return fetch(baseUrl + url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${await getToken()}`,
-      },
+      headers,
+      ...fetchOptions,
       body: JSON.stringify(body),
     })
       .then(handleResponse)
-      .catch(handleError),
+      .catch(handleError);
+  },
 
   del: async <T>(url: string): Promise<T> =>
     fetch(baseUrl + url, {
@@ -88,6 +97,7 @@ export const agent = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${await getToken()}`,
       },
+      ...fetchOptions,
     })
       .then(handleResponse)
       .catch(handleError),
