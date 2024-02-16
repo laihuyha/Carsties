@@ -2,7 +2,7 @@
 
 import { Button } from "flowbite-react";
 import { useState } from "react";
-import { update } from "../actions/auction-action";
+import { update } from "../_actions/auction-action";
 
 export const AuthTest = () => {
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,6 @@ export const AuthTest = () => {
     setLoading(true);
     update("afbee524-5972-4075-8800-7d1f9d7b0a0c")
       .then((res) => {
-        console.log({ res });
         setResult(res);
       })
       .finally(() => setLoading(false));

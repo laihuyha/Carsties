@@ -3,7 +3,7 @@
 import { AppPagination } from "@/app/_components/AppPagination";
 import { Empty } from "@/app/_components/Empty";
 import { Loading } from "@/app/_components/Loading";
-import { search } from "@/app/actions/search-action";
+import { search } from "@/app/_actions/search-action";
 import { useCommonStore } from "@/hooks/useCommonStore";
 import { useParamsStore } from "@/hooks/useParamStore";
 import { PagedResult, SearchParams } from "@/types";
