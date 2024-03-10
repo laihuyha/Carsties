@@ -6,7 +6,7 @@ type Props = {
   center?: boolean;
 };
 
-export const Heading = ({ title, subtitle, center }: Props) => {
+const Heading = ({ title, subtitle, center }: Props) => {
   return (
     <div className={center ? "text-center" : "text-start"}>
       <div className="text-2xl font-bold">{title}</div>
@@ -14,3 +14,5 @@ export const Heading = ({ title, subtitle, center }: Props) => {
     </div>
   );
 };
+
+export default Heading;

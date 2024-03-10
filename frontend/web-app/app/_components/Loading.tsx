@@ -6,7 +6,7 @@ type Props = {
   loading: boolean;
 };
 
-export const Loading = ({ loading }: Props) => {
+const Loading = ({ loading }: Props) => {
   return (
     loading && (
       <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -20,3 +20,5 @@ export const Loading = ({ loading }: Props) => {
     )
   );
 };
+
+export default Loading;
