@@ -2,14 +2,14 @@
 
 import { Item } from "@/types/search";
 import Image from "next/image";
-import { CountDownTimer } from "./CountDownTimer";
 import Link from "next/link";
+import CountDownTimer from "./CountDownTimer";
 
 type Props = {
   auction: Item;
 };
 
-export const AuctionCard = ({ auction }: Props) => {
+export default function AuctionCard({ auction }: Props) {
   return (
     <Link href={`/auctions/details/${auction.id}`} className="group">
       <div className="w-full bg-gray-200 aspect-w-16 aspect-h-10 rounded-lg overflow-hidden">
@@ -39,4 +39,4 @@ export const AuctionCard = ({ auction }: Props) => {
       </div>
     </Link>
   );
-};
+}
