@@ -1,5 +1,5 @@
-import { Heading } from "@/app/_components/Heading";
-import { AuctionForm } from "../_common/AuctionForm";
+import Heading from "@/app/_components/Heading";
+import AuctionForm from "../_common/AuctionForm";
 
 const CreateAuction = () => {
   return (
