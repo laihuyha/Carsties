@@ -5,25 +5,53 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "prettier",
-    "next"
+    "next",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["import", "react", "jsx-a11y"],
   "rules": {
-    "indent": ["error", "tab"],
+    "indent": ["off"],
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "sort-imports": ["warn", "always"],
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false
+      }
+    ],
     "camelcase": ["error"],
     "no-await-in-loop": ["warn"],
     "no-duplicate-imports": ["error"],
-    "no-unused-vars": ["warn"]
-  }
+    "no-unused-vars": ["warn"],
+    "@next/next/no-page-custom-font": "off",
+    "import/no-anonymous-default-export": "warn",
+    "react/no-unknown-property": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "jsx-a11y/alt-text": [
+      "warn",
+      {
+        "elements": ["img"],
+        "img": ["Image"]
+      }
+    ],
+    "jsx-a11y/aria-props": "warn",
+    "jsx-a11y/aria-proptypes": "warn",
+    "jsx-a11y/aria-unsupported-elements": "warn",
+    "jsx-a11y/role-has-required-aria-props": "warn",
+    "jsx-a11y/role-supports-aria-props": "warn",
+    "react/jsx-no-target-blank": "off"
+  },
+  "ignorePatterns": ["**/components/**"]
 }
