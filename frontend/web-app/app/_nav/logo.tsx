@@ -4,7 +4,7 @@ import { useParamsStore } from "@/hooks/useParamStore";
 import { usePathname, useRouter } from "next/navigation";
 import { AiOutlineCar } from "react-icons/ai";
 
-export const Logo = () => {
+const Logo = () => {
   const router = useRouter();
   const pathname = usePathname();
   const reset = useParamsStore((state) => state.reset);
@@ -26,3 +26,5 @@ export const Logo = () => {
     </div>
   );
 };
+
+export default Logo;

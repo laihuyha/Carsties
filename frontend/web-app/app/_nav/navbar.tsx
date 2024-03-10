@@ -1,8 +1,8 @@
-import { LoginButton } from "../_components/LoginButton";
 import { getCurrentUser } from "../_actions/auth-actions";
-import { DropdownUserAction } from "./dropdown-user-action";
-import { Logo } from "./logo";
-import { Search } from "./search";
+import LoginButton from "../_components/LoginButton";
+import DropdownUserAction from "./dropdown-user-action";
+import Logo from "./logo";
+import Search from "./search";
 
 const Navbar = async () => {
   const user = await getCurrentUser();
