@@ -5,22 +5,23 @@ import { Pagination } from "flowbite-react";
 type Props = {
   currentPage: number;
   pageCount: number;
+  // eslint-disable-next-line no-unused-vars
   pageChanged: (page: number) => void;
 };
 
-export const AppPagination = ({
+export default function AppPagination({
   currentPage,
   pageCount,
   pageChanged,
-}: Props) => {
+}: Props) {
   return (
     <Pagination
       currentPage={currentPage}
-      onPageChange={(e) => pageChanged(e)}
+      onPageChange={(page) => pageChanged(page)} // Utilize the 'page' parameter
       totalPages={pageCount}
       layout="pagination"
       showIcons={true}
       className="text-blue-500 mb-5"
     />
   );
-};
+}

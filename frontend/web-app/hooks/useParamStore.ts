@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -24,12 +26,7 @@ type Props = {
   showLabel: boolean;
 };
 
-export const FormDatePicker = ({
-  formContext,
-  name,
-  label,
-  showLabel,
-}: Props) => {
+const FormDatePicker = ({ formContext, name, label, showLabel }: Props) => {
   return (
     <>
       <FormField
@@ -75,3 +72,5 @@ export const FormDatePicker = ({
     </>
   );
 };
+
+export default FormDatePicker;

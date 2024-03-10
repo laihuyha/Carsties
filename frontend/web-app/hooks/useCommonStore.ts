@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createWithEqualityFn } from "zustand/traditional";
 
 type State = {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Empty } from "@/app/_components/Empty";
+import Empty from "@/app/_components/Empty";
 
 const SignInPage = ({
   searchParams,

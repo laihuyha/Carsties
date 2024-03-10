@@ -15,6 +15,8 @@ export const search = async (searchParams?: SearchParams) => {
     if (value == null) return;
     if (value.toString() !== "") params.append(key, value.toString());
   });
-  res = await agent.get<PagedResult<Item>>(`/search?${params.toString()}`);
+  res = await agent.get<PagedResult<Item>>(`/search?${params.toString()}`, [
+    "search",
+  ]);
   return res;
 };

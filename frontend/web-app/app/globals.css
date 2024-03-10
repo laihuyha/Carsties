@@ -78,3 +78,9 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+.toast-force-top-right {
+  top: 0;
+  right: -0.75rem !important;
+  left: unset !important;
+}

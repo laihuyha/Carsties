@@ -1,3 +1,5 @@
+"use client";
+
 import Countdown, { zeroPad } from "react-countdown";
 
 type Props = {
@@ -31,7 +33,7 @@ const renderer = ({
         <span>Auction Finished!</span>
       ) : (
         <>
-          <span>
+          <span suppressHydrationWarning>
             {zeroPad(days)}:{zeroPad(hours)}:{zeroPad(minutes)}:
             {zeroPad(seconds)}
           </span>
@@ -41,6 +43,6 @@ const renderer = ({
   );
 };
 
-export const CountDownTimer = ({ auctionEnd }: Props) => {
+export default function CountDownTimer({ auctionEnd }: Props) {
   return <Countdown date={auctionEnd} renderer={renderer} />;
-};
+}

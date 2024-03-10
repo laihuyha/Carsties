@@ -1,3 +1,6 @@
+"use client";
+
+/* eslint-disable no-unused-vars */
 import {
   FormControl,
   FormField,
@@ -33,7 +36,7 @@ type Props = {
   }) => React.ReactElement;
 };
 
-export const FormTextInput = (props: Props) => {
+const FormTextInput = (props: Props) => {
   return (
     <>
       <FormField
@@ -75,3 +78,4 @@ export const FormTextInput = (props: Props) => {
     </>
   );
 };
+export default FormTextInput;

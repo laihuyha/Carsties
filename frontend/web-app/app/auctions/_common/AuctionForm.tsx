@@ -1,20 +1,27 @@
 "use client";
 
-import { FormDatePicker } from "@/app/_components/FormDatePicker";
-import { FormTextInput } from "@/app/_components/FormTextInput";
-import { create } from "@/app/_actions/auction-action";
+import { create, update } from "@/app/_actions/auction-action";
+import FormDatePicker from "@/app/_components/FormDatePicker";
+import FormTextInput from "@/app/_components/FormTextInput";
 import { Form } from "@/components/ui/form";
 import { formSchema } from "@/schema/schema";
-import { ItemDTO } from "@/types/search";
+import { ActionType, FetchResult } from "@/types";
+import { Item, ItemDTO } from "@/types/search";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "flowbite-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
-export const AuctionForm = () => {
+type Props = {
+  auction?: Item;
+};
+
+const AuctionForm = ({ auction }: Props) => {
   const router = useRouter();
+  const pathName = usePathname();
   const defaultValues = {
     color: "",
     imageUrl: "",
@@ -33,18 +40,60 @@ export const AuctionForm = () => {
     mode: "onTouched",
   });
 
+  const handleToast = (res: FetchResult<Item>, actionCase: ActionType) => {
+    if (res && !res.error && res.data.id) {
+      toast.success(`${actionCase} auction ${res.data.id}, redirecting...`);
+      setTimeout(() => {
+        router.push(`/auctions/details/${res.data.id}`);
+      }, 4000);
+    } else {
+      toast.error(`Status: ${res.error?.status}: ${res.error?.message}`);
+    }
+  };
+
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      const res = await create(data);
-      router.push(`/auctions/details/${res.id}`);
-    } catch (error) {
-      console.error(error);
+    let res: FetchResult<Item>;
+    if (pathName.includes("create")) {
+      res = await create(data);
+      handleToast(res, ActionType.CREATE);
+    } else {
+      if (auction) {
+        res = await update(auction.id as string, data);
+        res.data.id = auction.id as string;
+        handleToast(res, ActionType.UPDATE);
+      }
     }
   };
 
   useEffect(() => {
+    if (auction) {
+      const {
+        make,
+        model,
+        color,
+        mileage,
+        year,
+        imageUrl,
+        auctionEnd,
+        reservePrice,
+      } = auction;
+
+      const date = new Date(auctionEnd);
+
+      form.reset({
+        make,
+        model,
+        color,
+        mileage,
+        year,
+        imageUrl,
+        reservePrice,
+        auctionEnd: date,
+      });
+    }
     form.setFocus("make");
-  }, [form.setFocus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
 
   return (
     <Form {...form}>
@@ -92,22 +141,26 @@ export const AuctionForm = () => {
           placeholder="Image URL if any"
           showLabel
         />
-        <div className="grid grid-cols-2 gap-3">
-          <FormTextInput
-            formContext={form}
-            name="reservePrice"
-            type="number"
-            showLabel
-          />
-          <FormDatePicker
-            formContext={form}
-            name="auctionEnd"
-            label="Auction End Date"
-            showLabel
-          />
-        </div>
+        {pathName.includes("create") && (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              <FormTextInput
+                formContext={form}
+                name="reservePrice"
+                type="number"
+                showLabel
+              />
+              <FormDatePicker
+                formContext={form}
+                name="auctionEnd"
+                label="Auction End Date"
+                showLabel
+              />
+            </div>
+          </>
+        )}
         <div className="flex justify-between">
-          <Button outline color="gray">
+          <Button outline color="gray" onClick={() => router.back()}>
             Cancel
           </Button>
           <Button
@@ -124,3 +177,5 @@ export const AuctionForm = () => {
     </Form>
   );
 };
+
+export default AuctionForm;

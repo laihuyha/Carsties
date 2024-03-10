@@ -1,7 +1,7 @@
 "use client";
 
 import { useParamsStore } from "@/hooks/useParamStore";
-import { ButtonGroup, Button } from "flowbite-react";
+import { Button, ButtonGroup } from "flowbite-react";
 import { AiOutlineClockCircle, AiOutlineSortAscending } from "react-icons/ai";
 import { BsFillStopCircleFill, BsStopwatchFill } from "react-icons/bs";
 import { GiFinishLine, GiFlame } from "react-icons/gi";
@@ -44,7 +44,7 @@ const filterButtons = [
   },
 ];
 
-export const Filters = () => {
+export default function Filters() {
   const store = useParamsStore((state) => ({
     pageSize: state.pageSize,
     orderBy: state.orderBy,
@@ -111,4 +111,4 @@ export const Filters = () => {
       </div>
     </div>
   );
-};
+}

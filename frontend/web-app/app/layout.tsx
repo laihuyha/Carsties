@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
+import { Toaster } from "sonner";
+import { toastOptions } from "../lib/utils";
 import Navbar from "./_nav/navbar";
 import "./globals.css";
 
@@ -17,6 +19,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={inter.className}>
         <Navbar />
         <main className="container mx-auto px-5 pt-10">{children}</main>
+        <Toaster
+          theme="system"
+          richColors
+          invert
+          closeButton
+          duration={3000}
+          toastOptions={toastOptions}
+        />
       </body>
     </html>
   );

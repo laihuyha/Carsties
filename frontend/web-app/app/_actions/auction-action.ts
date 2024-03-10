@@ -1,6 +1,7 @@
 "use server";
 
 import { Item, ItemDTO } from "@/types/search";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { agent } from "../api/agent";
 
 const all = async () => {
@@ -18,14 +19,17 @@ const create = async (data: ItemDTO) => {
   return res;
 };
 
-const update = async (id: string) => {
-  // test
-  const data = {
-    mileage: Math.floor(Math.random() * 100000) + 1,
-  };
-  const res = await agent.put<Item>(`/auctions/${id}`, data);
+const update = async (id: string, data?: ItemDTO) => {
+  const res = await agent.put<Item>(`/auctions/${id}`, data as {});
+  revalidatePath(`/auctions/${id}`);
   return res;
 };
 
-export { all, create, get, update };
+const deleteById = async (id: string) => {
+  const res = await agent.del<any>(`/auctions/${id}`);
+  revalidatePath("/");
+  revalidateTag("search");
+  return res;
+};
 
+export { all, create, deleteById, get, update };

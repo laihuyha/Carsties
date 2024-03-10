@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { ItemDTO } from "@/types/search";
 import { z } from "zod";
 
