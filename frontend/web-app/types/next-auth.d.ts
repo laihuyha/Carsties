@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -19,6 +20,6 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     username: string;
-    access_token?: string;
+    accessToken?: string;
   }
 }

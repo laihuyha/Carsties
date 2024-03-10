@@ -1,5 +1,5 @@
-import { Heading } from "../_components/Heading";
 import { getSession, getTokenWorkaround } from "../_actions/auth-actions";
+import Heading from "../_components/Heading";
 import { AuthTest } from "./auth-test";
 
 const SessionPage = async () => {

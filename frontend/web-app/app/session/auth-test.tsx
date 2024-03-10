@@ -20,12 +20,9 @@ export const AuthTest = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <Button
-        outline
-        isProcessing={loading}
-        onClick={doUpdate}
-        children="TEst Auth"
-      />
+      <Button outline isProcessing={loading} onClick={doUpdate}>
+        TEst Auth
+      </Button>
       <div>{result}</div>
     </div>
   );
