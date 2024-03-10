@@ -96,7 +96,7 @@ namespace AuctionService.Controllers
 
                 var result = await _context.SaveChangesAsync();
 
-                return result > 0 ? Ok(auction.Item) : BadRequest("Error while updating");
+                return result > 0 ? Ok(_mapper.Map<AuctionDTO>(auction.Item)) : BadRequest("Error while updating");
             }
             catch (Exception ex)
             {
