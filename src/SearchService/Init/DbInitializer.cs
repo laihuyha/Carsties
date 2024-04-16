@@ -6,7 +6,7 @@ using SearchService.Services;
 
 namespace SearchService.Init
 {
-    public class DbInitializer
+    public static class DbInitializer
     {
         public static async Task InitDb(IServiceProvider serviceProvider)
         {

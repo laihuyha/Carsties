@@ -13,7 +13,7 @@ using Serilog;
 
 namespace IdentityService;
 
-public class SeedData
+public static class SeedData
 {
     public static async Task EnsureSeedData(WebApplication app)
     {

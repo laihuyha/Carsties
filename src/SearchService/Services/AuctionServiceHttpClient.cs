@@ -35,7 +35,7 @@ namespace SearchService.Services
 
                 Console.WriteLine("Getting {0} items from auction service", items.Count);
 
-                return items ?? [];
+                return items;
             }
             catch (Exception ex)
             {
