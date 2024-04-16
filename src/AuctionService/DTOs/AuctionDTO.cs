@@ -2,7 +2,7 @@ using System;
 
 namespace AuctionService.DTO
 {
-    public class AuctionDTO
+    public class AuctionDto
     {
         public Guid Id { get; set; }
         public int ReservePrice { get; set; }
