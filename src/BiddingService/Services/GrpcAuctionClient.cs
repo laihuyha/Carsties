@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon.Runtime.Internal.Util;
 using AuctionService;
 using BiddingService.Models;
 using Grpc.Net.Client;

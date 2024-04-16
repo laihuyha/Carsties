@@ -1,9 +1,8 @@
 using System;
-using MongoDB.Entities;
 
 namespace BiddingService.DTOs
 {
-    public class BidDto : Entity
+    public class BidDto
     {
         public string Id { get; set; }
         public string AuctionId { get; set; }
