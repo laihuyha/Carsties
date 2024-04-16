@@ -31,7 +31,7 @@ namespace AuctionService.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<List<AuctionDTO>>> GetAuctions(string date)
+        public async Task<ActionResult<List<AuctionDto>>> GetAuctions(string date)
         {
             var query = _context.Auctions.AsNoTracking().OrderBy(e => e.Item.Make).AsQueryable();
             if (!string.IsNullOrEmpty(date))
@@ -40,21 +40,21 @@ namespace AuctionService.Controllers
                 _ = query.Where(e => e.UpdateAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) >= 0);
             }
 
-            return await query.ProjectTo<AuctionDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            return await query.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AuctionDTO>> Get(string Id)
+        public async Task<ActionResult<AuctionDto>> Get(string Id)
         {
             var auction = await _context.Auctions
                             .Include(e => e.Item).AsNoTracking().AsSplitQuery()
                             .SingleOrDefaultAsync(e => e.Id.ToString() == Id);
-            return auction == null ? (ActionResult<AuctionDTO>)NotFound() : (ActionResult<AuctionDTO>)_mapper.Map<AuctionDTO>(auction);
+            return auction == null ? (ActionResult<AuctionDto>)NotFound() : (ActionResult<AuctionDto>)_mapper.Map<AuctionDto>(auction);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO auctiondto)
+        public async Task<ActionResult<AuctionDto>> CreateAuction(CreateAuctionDto auctiondto)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace AuctionService.Controllers
                 auction.Seller = User.Identity.Name;
                 _ = _context.Auctions.Add(auction);
 
-                var newAuction = _mapper.Map<AuctionDTO>(auction);
+                var newAuction = _mapper.Map<AuctionDto>(auction);
                 await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
 
                 _ = await _context.SaveChangesAsync();
@@ -76,7 +76,7 @@ namespace AuctionService.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<ActionResult<AuctionDTO>> UpdateAuction(Guid id, UpdateAuctionDTO auctiondto)
+        public async Task<ActionResult<AuctionDto>> UpdateAuction(Guid id, UpdateAuctionDto auctiondto)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace AuctionService.Controllers
 
                 var result = await _context.SaveChangesAsync();
 
-                return result > 0 ? Ok(_mapper.Map<AuctionDTO>(auction.Item)) : BadRequest("Error while updating");
+                return result > 0 ? Ok(_mapper.Map<AuctionDto>(auction.Item)) : BadRequest("Error while updating");
             }
             catch (Exception ex)
             {

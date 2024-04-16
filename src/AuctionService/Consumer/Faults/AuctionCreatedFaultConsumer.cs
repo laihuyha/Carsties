@@ -11,7 +11,7 @@ namespace AuctionService.Consumer
         public async Task Consume(ConsumeContext<Fault<AuctionCreated>> context)
         {
             Console.WriteLine("===> Consuming auction created fault: {0}", context.Message.Message.Id);
-            var ex = context.Message.Exceptions.First();
+            var ex = context.Message.Exceptions[0];
             if (ex.ExceptionType == "System.ArgumentException")
             {
                 context.Message.Message.Model = "Foobar";

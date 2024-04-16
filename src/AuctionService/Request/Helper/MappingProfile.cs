@@ -9,13 +9,13 @@ namespace AuctionService.Request.Helper
     {
         public MappingProfile()
         {
-            _ = CreateMap<Auction, AuctionDTO>().IncludeMembers(e => e.Item);
-            _ = CreateMap<Item, AuctionDTO>();
-            _ = CreateMap<CreateAuctionDTO, Auction>().ForMember(e => e.Item, opt => opt.MapFrom(s => s));
-            _ = CreateMap<CreateAuctionDTO, Item>();
+            _ = CreateMap<Auction, AuctionDto>().IncludeMembers(e => e.Item);
+            _ = CreateMap<Item, AuctionDto>();
+            _ = CreateMap<CreateAuctionDto, Auction>().ForMember(e => e.Item, opt => opt.MapFrom(s => s));
+            _ = CreateMap<CreateAuctionDto, Item>();
 
             #region Mapping for using in event bus
-            _ = CreateMap<AuctionDTO, AuctionCreated>();
+            _ = CreateMap<AuctionDto, AuctionCreated>();
             _ = CreateMap<Auction, AuctionUpdated>().IncludeMembers(a => a.Item);
             _ = CreateMap<Item, AuctionUpdated>();
             #endregion Mapping for using in event bus
