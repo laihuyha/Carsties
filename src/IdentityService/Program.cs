@@ -31,7 +31,7 @@ try
     //     Log.Information("Done seeding database. Exiting.");
     //     return;
     // }
-    SeedData.EnsureSeedData(app);
+    await SeedData.EnsureSeedData(app);
 
     app.Run();
 }
