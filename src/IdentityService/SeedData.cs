@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using IdentityModel;
 using IdentityService.Data;
 using IdentityService.Models;
@@ -14,7 +15,7 @@ namespace IdentityService;
 
 public class SeedData
 {
-    public static async void EnsureSeedData(WebApplication app)
+    public static async Task EnsureSeedData(WebApplication app)
     {
         using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
