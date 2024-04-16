@@ -10,13 +10,6 @@ namespace SearchService.Consumer
 {
     public class AuctionUpdatedConsumer : IConsumer<AuctionUpdated>
     {
-        private readonly IMapper _mapper;
-
-        public AuctionUpdatedConsumer(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
-
         public async Task Consume(ConsumeContext<AuctionUpdated> context)
         {
             Console.WriteLine("===> Consuming auction updated: {0}", context.Message.Id);
