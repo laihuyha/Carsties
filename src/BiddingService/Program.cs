@@ -1,3 +1,6 @@
+using System;
+using BiddingService.Consumers;
+using BiddingService.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +16,7 @@ builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("bids", false));
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -34,6 +38,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     opt.TokenValidationParameters.ValidateAudience = false;
     opt.TokenValidationParameters.NameClaimType = "username";
 });
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddHostedService<OnAuctionFinished>();
+
+builder.Services.AddScoped<GrpcAuctionClient>();
 
 var app = builder.Build();
 
