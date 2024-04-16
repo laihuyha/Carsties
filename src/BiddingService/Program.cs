@@ -47,10 +47,9 @@ builder.Services.AddScoped<GrpcAuctionClient>();
 
 var app = builder.Build();
 
-app.MapControllers();
-
 app.UseAuthorization();
-app.UseAuthentication();
+
+app.MapControllers();
 
 await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("BiddingConnection")));
 
