@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 EXPOSE 80
 
@@ -23,11 +23,11 @@ COPY src/IdentityService/IdentityService.csproj src/IdentityService/IdentityServ
 RUN dotnet restore Carsties.sln
 
 # copy the app folders over
-COPY src/AuctionService src/AuctionService
+COPY src/NotifService src/NotifService
 
 COPY src/Contracts src/Contracts
 
-WORKDIR /app/src/AuctionService
+WORKDIR /app/src/NotifService
 
 RUN dotnet publish -c Release -o /app/src/out
 
@@ -35,4 +35,4 @@ RUN dotnet publish -c Release -o /app/src/out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/src/out .
-ENTRYPOINT ["dotnet", "AuctionService.dll"]
+ENTRYPOINT ["dotnet", "NotifService.dll"]
