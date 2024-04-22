@@ -2,5 +2,10 @@
     "sonarlint.connectedMode.project": {
         "connectionId": "laihuyha_VsCodeExt",
         "projectKey": "laihuyha_Carsties"
-    }
+    },
+    "editor.fontFamily": "ComicMono, SpicyChicken, MonaspaceKrypton ,Cascadia Mono ,CascadiaCode , Fira Code , Consolas, 'Courier New', monospace",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": false,
+    "editor.fontWeight": "600",
+    "editor.formatOnType": true
 }
