@@ -23,7 +23,7 @@ services:
       - 5672:5672 #main port
       - 15672:15672 #management port
   auction-svc:
-    image: 1811063460/auction-svc:lastest
+    image: 1811063460/auction-svc:latest
     build:
       context: .
       dockerfile: src/AuctionService/dockerfile
@@ -45,7 +45,7 @@ services:
       - postgres
       - rabbitmq
   search-svc:
-    image: 1811063460/search-svc:lastest
+    image: 1811063460/search-svc:latest
     build:
       context: .
       dockerfile: src/SearchService/dockerfile
@@ -85,7 +85,7 @@ services:
     ports:
       - 5032:80
   bid-svc:
-    image: 1811063460/bid-svc:lastest
+    image: 1811063460/bid-svc:latest
     build:
       context: .
       dockerfile: src/BiddingService/dockerfile
@@ -100,6 +100,19 @@ services:
       - 5280:80
     depends_on:
       - mongodb
+      - rabbitmq
+  notify-svc:
+    image: 1811063460/notify-svc:latest
+    build:
+      context: .
+      dockerfile: src/NotifService/dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - RabbitMq__Host=rabbitmq
+    ports:
+      - 5179:80
+    depends_on:
       - rabbitmq
 volumes:
   pgdata:
