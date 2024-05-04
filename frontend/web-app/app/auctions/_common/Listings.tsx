@@ -4,16 +4,15 @@ import { search } from "@/app/_actions/search-action";
 import AppPagination from "@/app/_components/AppPagination";
 import Empty from "@/app/_components/Empty";
 import Loading from "@/app/_components/Loading";
+import { useAuctionStore } from "@/hooks/useAuctionStore";
 import { useCommonStore } from "@/hooks/useCommonStore";
 import { useParamsStore } from "@/hooks/useParamStore";
-import { PagedResult, SearchParams } from "@/types";
-import { Item } from "@/types/search";
-import { useCallback, useEffect, useState } from "react";
+import { SearchParams } from "@/types";
+import { useCallback, useEffect } from "react";
 import AuctionCard from "./AuctionCard";
 import Filters from "./Filters";
 
 export const Listings = () => {
-  const [data, setData] = useState<PagedResult<Item>>();
   const params = useParamsStore((state) => ({
     pageNumber: state.pageNumber,
     pageSize: state.pageSize,
@@ -23,6 +22,15 @@ export const Listings = () => {
     seller: state.seller,
     winner: state.winner,
   }));
+
+  const data = useAuctionStore((state) => ({
+    auctions: state.auctions,
+    totalCount: state.totalCount,
+    pageCount: state.pageCount,
+  }));
+
+  const setData = useAuctionStore((state) => state.setData);
+
   const loading = useCommonStore((state) => state.loading);
 
   const setParams = useParamsStore((state) => state.setParams);
@@ -61,7 +69,7 @@ export const Listings = () => {
       {data && data.totalCount > 0 ? (
         <>
           <div className="grid grid-cols-4 gap-6">
-            {data.results.map((auction) => (
+            {data.auctions.map((auction) => (
               <AuctionCard auction={auction} key={auction.id} />
             ))}
           </div>

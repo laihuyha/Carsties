@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 import { cookies, headers } from "next/headers";
 import { authOptions } from "../api/auth/authOptions";
+import { Bid } from "@/types";
+import { agent } from "../api/agent";
+import { toast } from "sonner";
 
 const getSession = async () => {
   return await getServerSession(authOptions);
@@ -31,5 +34,13 @@ const getCurrentUser = async () => {
   }
 };
 
-export { getCurrentUser, getSession, getTokenWorkaround };
+const getBidForAuction = async (id: string): Promise<Bid[]> => {
+  const response = await agent.get<Bid[]>(`/bids/${id}`);
+  if (response.error) {
+    toast.error(response.error.message);
+    return [];
+  }
+  return response.data;
+};
 
+export { getCurrentUser, getSession, getTokenWorkaround, getBidForAuction };

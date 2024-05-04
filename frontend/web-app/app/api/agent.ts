@@ -5,7 +5,8 @@ import { FetchResult } from "@/types";
 const baseUrl = process.env.GATE_WAY_SERVICE_URI;
 
 let fetchOptions: RequestInit = {
-  cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+  // cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+  next: { revalidate: 90 },
 };
 
 const handleResponse = async <T>(response: Response) => {
