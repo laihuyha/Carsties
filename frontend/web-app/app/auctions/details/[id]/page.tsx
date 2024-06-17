@@ -1,15 +1,16 @@
 import { get } from "@/app/_actions/auction-action";
-import { getBidForAuction, getCurrentUser } from "@/app/_actions/auth-actions";
+import { getCurrentUser } from "@/app/_actions/auth-actions";
 import DropdownMenu from "@/app/_components/DropdownMenu";
 import Heading from "@/app/_components/Heading";
 import { DropdownItem } from "flowbite-react";
+import { User } from "next-auth";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import CountDownTimer from "../../_common/CountDownTimer";
+import BidList from "./BidList";
 import DeleteButton from "./DeleteButton";
 import DetailedSpecs from "./DetailedSpecs";
 import EditButton from "./EditButton";
-import BidItem from "./BidItem";
 
 type Props = {
   id: string;
@@ -19,7 +20,6 @@ const AuctionDetails = async ({ params }: { params: Props }) => {
   revalidatePath(`/auctions/details/${params.id}`);
   const { data } = await get(params.id);
   const user = await getCurrentUser();
-  const bids = await getBidForAuction(params.id);
 
   const dropdownItems = (
     <>
@@ -59,12 +59,7 @@ const AuctionDetails = async ({ params }: { params: Props }) => {
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 25vw"
           />
         </div>
-        <div className="border-2 rounded-lg p-2 bg-gray-100">
-          <Heading title="Bids" />
-          {bids.map((e) => (
-            <BidItem key={e.id} bid={e} />
-          ))}
-        </div>
+        <BidList user={(user as User) ?? null} auction={data} />
       </div>
       <div className="mt-3 grid grid-cols-1 rounded-lg">
         <DetailedSpecs auction={data} />

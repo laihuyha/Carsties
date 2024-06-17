@@ -1,4 +1,5 @@
 import { BidStatus } from "@/enums";
+import { toUSDFormat } from "@/lib/utils";
 import { Bid } from "@/types";
 import { format } from "date-fns";
 
@@ -31,12 +32,6 @@ const BidItem = ({ bid }: Props) => {
     return { bgColor, text };
   };
 
-  let USDollar = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 3,
-  });
-
   return (
     <div
       className={`border-gray-300 border-2 px-3 py-2 rounded-lg flex justify-between items-center mb-2 ${
@@ -51,7 +46,7 @@ const BidItem = ({ bid }: Props) => {
       </div>
       <div className="flex flex-col text-right">
         <div className="text-xl font-semibold">
-          {USDollar.format(bid.amount)}
+          {toUSDFormat(bid.amount)}
         </div>
         <div className="flex flex-row items-center">
           <span>{getBidInfo().text}</span>
