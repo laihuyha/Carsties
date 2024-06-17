@@ -4,8 +4,9 @@ import { create, update } from "@/app/_actions/auction-action";
 import FormDatePicker from "@/app/_components/FormDatePicker";
 import FormTextInput from "@/app/_components/FormTextInput";
 import { Form } from "@/components/ui/form";
-import { formSchema } from "@/schema/schema";
-import { ActionType, FetchResult } from "@/types";
+import { ActionType } from "@/enums";
+import { auctionFormSchema } from "@/schema/schema";
+import { FetchResult } from "@/types";
 import { Item, ItemDTO } from "@/types/search";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "flowbite-react";
@@ -34,8 +35,8 @@ const AuctionForm = ({ auction }: Props) => {
     auctionEnd: new Date(),
   } as ItemDTO;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof auctionFormSchema>>({
+    resolver: zodResolver(auctionFormSchema),
     defaultValues: { ...defaultValues },
     mode: "onTouched",
   });
@@ -51,7 +52,7 @@ const AuctionForm = ({ auction }: Props) => {
     }
   };
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof auctionFormSchema>) => {
     let res: FetchResult<Item>;
     if (pathName.includes("create")) {
       res = await create(data);
@@ -67,16 +68,7 @@ const AuctionForm = ({ auction }: Props) => {
 
   useEffect(() => {
     if (auction) {
-      const {
-        make,
-        model,
-        color,
-        mileage,
-        year,
-        imageUrl,
-        auctionEnd,
-        reservePrice,
-      } = auction;
+      const { make, model, color, mileage, year, imageUrl, auctionEnd, reservePrice } = auction;
 
       const date = new Date(auctionEnd);
 
@@ -97,36 +89,12 @@ const AuctionForm = ({ auction }: Props) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col mt-3"
-      >
-        <FormTextInput
-          formContext={form}
-          name="make"
-          placeholder="Which company made it?"
-          showLabel
-        />
-        <FormTextInput
-          formContext={form}
-          name="model"
-          placeholder="What model is it?"
-          showLabel
-        />
-        <FormTextInput
-          formContext={form}
-          name="color"
-          placeholder="What color is it?"
-          showLabel
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col mt-3">
+        <FormTextInput formContext={form} name="make" placeholder="Which company made it?" showLabel />
+        <FormTextInput formContext={form} name="model" placeholder="What model is it?" showLabel />
+        <FormTextInput formContext={form} name="color" placeholder="What color is it?" showLabel />
         <div className="grid grid-cols-2 gap-3">
-          <FormTextInput
-            formContext={form}
-            name="year"
-            type="number"
-            placeholder="When was it made?"
-            showLabel
-          />
+          <FormTextInput formContext={form} name="year" type="number" placeholder="When was it made?" showLabel />
           <FormTextInput
             formContext={form}
             type="number"
@@ -135,27 +103,12 @@ const AuctionForm = ({ auction }: Props) => {
             showLabel
           />
         </div>
-        <FormTextInput
-          formContext={form}
-          name="imageUrl"
-          placeholder="Image URL if any"
-          showLabel
-        />
+        <FormTextInput formContext={form} name="imageUrl" placeholder="Image URL if any" showLabel />
         {pathName.includes("create") && (
           <>
             <div className="grid grid-cols-2 gap-3">
-              <FormTextInput
-                formContext={form}
-                name="reservePrice"
-                type="number"
-                showLabel
-              />
-              <FormDatePicker
-                formContext={form}
-                name="auctionEnd"
-                label="Auction End Date"
-                showLabel
-              />
+              <FormTextInput formContext={form} name="reservePrice" type="number" showLabel />
+              <FormDatePicker formContext={form} name="auctionEnd" label="Auction End Date" showLabel />
             </div>
           </>
         )}
