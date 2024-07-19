@@ -32,8 +32,6 @@ const BidList = ({ user, auction }: Props) => {
   }, [auction.id, setLoading, setBids]);
 
   const renderBidInput = () => {
-    console.log(user?.username);
-    console.log(auction.seller);
     if (!user) {
       return (
         <div className="flex items-center justify-center p-2 text-lg font-semibold">
