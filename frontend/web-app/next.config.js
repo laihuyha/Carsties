@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.lamborghini.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     minimumCacheTTL: 120,
     dangerouslyAllowSVG: true,
