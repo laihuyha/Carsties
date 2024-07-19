@@ -9,7 +9,7 @@ using NotifService.Hubs;
 
 namespace NotifService.Consumer
 {
-    public class BidPlacedConsumer : IConsumer<BidPlace>
+    public class BidPlacedConsumer : IConsumer<BidPlaced>
     {
         private readonly IHubContext<NotificationHub> _hubContext;
 
@@ -18,7 +18,7 @@ namespace NotifService.Consumer
             _hubContext = hubContext;
         }
 
-        public async Task Consume(ConsumeContext<BidPlace> context)
+        public async Task Consume(ConsumeContext<BidPlaced> context)
         {
             Console.WriteLine("======> Notif Hub : Bid placed message received");
 

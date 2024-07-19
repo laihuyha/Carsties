@@ -2,7 +2,7 @@ using System;
 
 namespace Contracts.Bid
 {
-    public class BidPlace
+    public class BidPlaced
     {
         public string Id { get; set; }
         public string AuctionId { get; set; }
