@@ -2,7 +2,7 @@
 import { ItemDTO } from "@/types/search";
 import { z } from "zod";
 
-const formSchema = z.object({
+const auctionFormSchema = z.object({
   color: z.string(),
   imageUrl: z
     .string()
@@ -18,4 +18,9 @@ const formSchema = z.object({
   auctionEnd: z.date().min(new Date()),
 }) as z.ZodType<ItemDTO>;
 
-export { formSchema };
+const bidFormSchema = (minValue: number) =>
+  z.object({
+    amount: z.coerce.number().min(minValue),
+  });
+
+export { auctionFormSchema, bidFormSchema };

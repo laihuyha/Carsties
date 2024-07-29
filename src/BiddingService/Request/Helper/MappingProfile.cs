@@ -10,7 +10,7 @@ namespace BiddingService.Request.Helper
         public MappingProfile()
         {
             CreateMap<Bid, BidDto>();
-            CreateMap<Bid, BidPlace>();
+            CreateMap<Bid, BidPlaced>();
         }
     }
 }

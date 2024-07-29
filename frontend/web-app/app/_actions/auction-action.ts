@@ -32,4 +32,9 @@ const deleteById = async (id: string) => {
   return res;
 };
 
-export { all, create, deleteById, get, update };
+const placeBidForAuction = async (auctionId: string, amount: number) => {
+  const res = await agent.post(`/bids?auctionId=${auctionId}&amount=${amount}`, {});
+  return res;
+};
+
+export { all, create, get, update, deleteById, placeBidForAuction };

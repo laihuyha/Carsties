@@ -6,7 +6,7 @@ using MassTransit;
 
 namespace AuctionService.Consumer
 {
-    public class BidPlaceConsumer : IConsumer<BidPlace>
+    public class BidPlaceConsumer : IConsumer<BidPlaced>
     {
         private readonly AuctionDbContext _auctionDbContext;
 
@@ -15,7 +15,7 @@ namespace AuctionService.Consumer
             _auctionDbContext = auctionDbContext;
         }
 
-        public async Task Consume(ConsumeContext<BidPlace> context)
+        public async Task Consume(ConsumeContext<BidPlaced> context)
         {
             Console.WriteLine("===> Consuming bid place BidId: {0}", context.Message.Id);
             var auction = await _auctionDbContext.Auctions.FindAsync(Guid.Parse(context.Message.AuctionId));

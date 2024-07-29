@@ -4,6 +4,7 @@ import { Item } from "@/types/search";
 import Image from "next/image";
 import Link from "next/link";
 import CountDownTimer from "./CountDownTimer";
+import { CurrentBid } from "./CurrentBid";
 
 type Props = {
   auction: Item;
@@ -28,6 +29,12 @@ export default function AuctionCard({ auction }: Props) {
           />
           <div className="absolute bottom-2 left-2">
             <CountDownTimer auctionEnd={auction.auctionEnd} />
+          </div>
+          <div className="absolute top-2 right-2">
+            <CurrentBid
+              reservePrice={auction.reservePrice}
+              amount={auction.currentHighBid}
+            />
           </div>
         </div>
       </div>

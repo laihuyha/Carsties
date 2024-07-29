@@ -125,7 +125,7 @@ namespace BiddingService.Controllers
 
         private async Task PublishBidPlaceEvent(Bid bid)
         {
-            await _publishEndpoint.Publish(_mapper.Map<BidPlace>(bid));
+            await _publishEndpoint.Publish(_mapper.Map<BidPlaced>(bid));
         }
         #endregion Private method
     }

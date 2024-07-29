@@ -5,10 +5,11 @@ import { FetchResult } from "@/types";
 const baseUrl = process.env.GATE_WAY_SERVICE_URI;
 
 let fetchOptions: RequestInit = {
-  cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+  // cache: "force-cache" as RequestCache, // Convert the string to RequestCache
+  next: { revalidate: 90 },
 };
 
-const handleResponse = async <T>(response: Response) => {
+const handleResponse = async <T>(response: any) => {
   const text = await response.text();
   // const data = text && JSON.parse(text);
   let data;
@@ -28,6 +29,8 @@ const handleResponse = async <T>(response: Response) => {
       message:
         typeof data === "string" && data.length > 0
           ? data
+          : typeof data === "object" && data.error !== null
+          ? data.error
           : response.statusText,
     };
     return handleError(error);

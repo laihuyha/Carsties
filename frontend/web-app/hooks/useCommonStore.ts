@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 
 type State = {
@@ -14,9 +15,12 @@ const initialState: State = {
   loading: false,
 };
 
-export const useCommonStore = createWithEqualityFn<State & Action>()((set) => ({
-  ...initialState,
-  setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
-  setParamsValue: (value: keyof State, newValue: any) =>
-    set((state) => ({ ...state, [value]: newValue })),
-}));
+export const useCommonStore = createWithEqualityFn<State & Action>()(
+  (set) => ({
+    ...initialState,
+    setLoading: (loading: boolean) => set((state) => ({ ...state, loading })),
+    setParamsValue: (value: keyof State, newValue: any) =>
+      set((state) => ({ ...state, [value]: newValue })),
+  }),
+  shallow
+);
