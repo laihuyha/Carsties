@@ -21,7 +21,13 @@ const BidList = ({ user, auction }: Props) => {
   const setLoading = useCommonStore((state) => state.setLoading);
   const bids = useBidStore((state) => state.bids);
   const setBids = useBidStore((state) => state.setBids);
-  const highBid = bids.reduce((prev, current) => (prev > current.amount ? prev : current.amount), 0);
+  const highBid = bids.reduce(
+    (prev, current) => (prev > current.amount ? prev : current.bidStatus.includes("Accepted") ? current.amount : prev),
+    0
+  );
+  const open = useBidStore((state) => state.open);
+  const setOpen = useBidStore((state) => state.setOpen);
+  const openForBid = new Date(auction.auctionEnd) > new Date();
 
   setLoading(true);
 
@@ -31,7 +37,16 @@ const BidList = ({ user, auction }: Props) => {
       .finally(() => setLoading(false));
   }, [auction.id, setLoading, setBids]);
 
+  useEffect(() => {
+    setOpen(openForBid);
+  }, [openForBid, setOpen]);
+
   const renderBidInput = () => {
+    if (!open) {
+      return (
+        <div className="flex items-center justify-center p-2 text-lg font-semibold">This auction has finished</div>
+      );
+    }
     if (!user) {
       return (
         <div className="flex items-center justify-center p-2 text-lg font-semibold">

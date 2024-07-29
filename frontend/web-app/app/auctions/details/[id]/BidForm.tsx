@@ -29,13 +29,17 @@ const BidForm = ({ auctionId, highBid }: Props) => {
     placeBidForAuction(auctionId, +data.amount)
       .then((res: FetchResult<any>) => {
         if (res.error) {
+          reset();
           throw res.error;
         } else {
           addBid(res.data);
           reset();
         }
       })
-      .catch((e) => toast.error(e.message));
+      .catch((e) => {
+        reset();
+        toast.error(e.message);
+      });
   };
   return (
     <Form {...form}>
