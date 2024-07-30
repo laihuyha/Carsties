@@ -114,6 +114,23 @@ services:
       - 5179:80
     depends_on:
       - rabbitmq
+  web-app:
+    image: 1811063460/web-app
+    build:
+      context: .
+      dockerfile: frontend/web-app/dockerfile
+    volumes:
+      - /var/lib/web/data
+    ports: 
+      - 3000:3000
+    environment:
+      - DEFAULT_URL=http://localhost
+      - GATE_WAY_PORT=5032
+      - IDENTITY_PORT=5002
+      - DEFAULT_NEXTAUTH_LOCAL_PORT=3000
+      - GATE_WAY_SERVICE_URI=http://gateway-svc
+      - IDENTITY_SERVICE_URL=http://identity-svc
+      - NEXTAUTH_URL=http://web-app
 volumes:
   pgdata:
   mongodb_data:
