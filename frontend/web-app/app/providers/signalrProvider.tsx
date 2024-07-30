@@ -8,10 +8,10 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { User } from "next-auth";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
-import AuctionCreatedToast from "../_components/AuctionCreatedToast";
-import { agent } from "../api/agent";
 import { get } from "../_actions/auction-action";
+import AuctionCreatedToast from "../_components/AuctionCreatedToast";
 import AuctionFinishedToast from "../_components/AuctionFinishedToast";
+import { env } from "process";
 
 type Props = {
   user: User | null;
@@ -25,7 +25,7 @@ const SignalrProvider = ({ children, user }: Props) => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5032/notifications")
+      .withUrl(`${env.DEFAULT_URL}:${env.GATE_WAY_PORT}/notifications`)
       .withAutomaticReconnect()
       .build();
 
