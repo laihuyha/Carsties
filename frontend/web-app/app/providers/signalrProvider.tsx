@@ -25,7 +25,7 @@ const SignalrProvider = ({ children, user }: Props) => {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl(`${env.DEFAULT_URL}:${env.GATE_WAY_PORT}/notifications`)
+      .withUrl(`${env.GATE_WAY_SERVICE_URI}/notifications`)
       .withAutomaticReconnect()
       .build();
 
