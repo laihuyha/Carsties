@@ -6,12 +6,12 @@ import { AuctionFinished, Bid } from "@/types";
 import { Item } from "@/types/search";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { User } from "next-auth";
+import { env } from "process";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { get } from "../_actions/auction-action";
 import AuctionCreatedToast from "../_components/AuctionCreatedToast";
 import AuctionFinishedToast from "../_components/AuctionFinishedToast";
-import { env } from "process";
 
 type Props = {
   user: User | null;
@@ -60,7 +60,7 @@ const SignalrProvider = ({ children, user }: Props) => {
             return toast.promise(auction, {
               loading: "Loading......",
               success: (result) => <AuctionFinishedToast finishedAuction={finishedAuction} auction={result.data} />,
-              error: (err) => "Auction Finished !",
+              error: () => "Auction Finished !",
               duration: 5000,
               icon: null,
             });
@@ -72,7 +72,7 @@ const SignalrProvider = ({ children, user }: Props) => {
     return () => {
       connection?.stop();
     };
-  }, [connection, setCurrentPrice]);
+  }, [connection, setCurrentPrice, addBid, user?.username]);
 
   return children;
 };
