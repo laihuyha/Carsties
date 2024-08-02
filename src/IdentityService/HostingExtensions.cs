@@ -35,7 +35,10 @@ internal static class HostingExtensions
                 options.IssuerUri = "identity-svc";
             }
         })
-        .AddInMemoryIdentityResources(Config.IdentityResources).AddInMemoryApiScopes(Config.ApiScopes).AddInMemoryClients(Config.Clients).AddAspNetIdentity<ApplicationUser>()
+        .AddInMemoryIdentityResources(Config.IdentityResources)
+        .AddInMemoryApiScopes(Config.ApiScopes)
+        .AddInMemoryClients(Config.Clients(builder.Configuration))
+        .AddAspNetIdentity<ApplicationUser>()
         .AddProfileService<CustomProfileService>();
 
         builder.Services.ConfigureApplicationCookie(o => o.Cookie.SameSite = SameSiteMode.Lax);
