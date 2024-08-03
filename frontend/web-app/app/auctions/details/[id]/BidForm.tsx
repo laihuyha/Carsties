@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/form";
 import { useBidStore } from "@/hooks/useBidStore";
 import { toUSDFormat } from "@/lib/utils";
 import { bidFormSchema } from "@/schema/schema";
-import { Bid, FetchResult } from "@/types";
+import { FetchResult } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";

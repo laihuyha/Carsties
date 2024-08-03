@@ -8,9 +8,8 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { User } from "next-auth";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
-import AuctionCreatedToast from "../_components/AuctionCreatedToast";
-import { agent } from "../api/agent";
 import { get } from "../_actions/auction-action";
+import AuctionCreatedToast from "../_components/AuctionCreatedToast";
 import AuctionFinishedToast from "../_components/AuctionFinishedToast";
 
 type Props = {
@@ -22,15 +21,16 @@ const SignalrProvider = ({ children, user }: Props) => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const setCurrentPrice = useAuctionStore((state) => state.setCurrentPrice);
   const addBid = useBidStore((e) => e.addBid);
+  const apiUrl = process.env.NODE_ENV === "production" ? "https://api.carsties.com" : process.env.GATE_WAY_SERVICE_URI;
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5032/notifications")
+      .withUrl(`${apiUrl!}/notifications`)
       .withAutomaticReconnect()
       .build();
 
     setConnection(newConnection);
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     if (connection) {
@@ -60,7 +60,7 @@ const SignalrProvider = ({ children, user }: Props) => {
             return toast.promise(auction, {
               loading: "Loading......",
               success: (result) => <AuctionFinishedToast finishedAuction={finishedAuction} auction={result.data} />,
-              error: (err) => "Auction Finished !",
+              error: () => "Auction Finished !",
               duration: 5000,
               icon: null,
             });
@@ -72,7 +72,7 @@ const SignalrProvider = ({ children, user }: Props) => {
     return () => {
       connection?.stop();
     };
-  }, [connection, setCurrentPrice]);
+  }, [connection, setCurrentPrice, addBid, user?.username]);
 
   return children;
 };

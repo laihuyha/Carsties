@@ -5,7 +5,7 @@ import { Toaster } from "sonner";
 import { toastOptions } from "../lib/utils";
 import Navbar from "./_nav/navbar";
 import "./globals.css";
-import SignalrProvider from "./providers/signalrProvider";
+import SignalrProvider from "./_providers/signalrProvider";
 import { getCurrentUser } from "./_actions/auth-actions";
 
 const inter = Inter({ subsets: ["latin"] });

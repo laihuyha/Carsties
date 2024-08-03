@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Duende.IdentityServer.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace IdentityService;
 
@@ -10,7 +11,7 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes => [new("auctionApp", "Auction app full access"), new("scope2")];
 
-    public static IEnumerable<Client> Clients =>
+    public static IEnumerable<Client> Clients(IConfiguration config) =>
     [
         new() {
             ClientId = "postman",
@@ -26,7 +27,7 @@ public static class Config
             ClientSecrets = {new Secret("secret".Sha256())},
             AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
             RequirePkce = false,
-            RedirectUris = { "http://localhost:3000/api/auth/callback/id-server" },
+            RedirectUris = {config["ClientApp"] + "/api/auth/callback/id-server" },
             AllowOfflineAccess = true,
             AllowedScopes = {"openid", "profile", "auctionApp"},
             AccessTokenLifetime = (int)TimeSpan.FromDays(30).TotalSeconds,

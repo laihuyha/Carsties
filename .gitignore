@@ -489,3 +489,4 @@ $RECYCLE.BIN/
 **keys
 **/.next/**
 .vscode/settings.json
+dev-certs/*
