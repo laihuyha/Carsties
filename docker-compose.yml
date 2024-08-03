@@ -1,3 +1,9 @@
+networks:
+  custom:
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+
 services:
   postgres:
     image: postgres
@@ -8,6 +14,8 @@ services:
       - 5432:5432
     volumes:
       - ./db/pgdata:/var/lib/postgresql/data
+    networks:
+      custom:
   mongodb:
     image: mongo
     environment:
@@ -17,11 +25,15 @@ services:
       - 27017:27017
     volumes:
       - ./db/mongodb_data:/var/lib/mongodb/data
+    networks:
+      custom:
   rabbitmq:
     image: rabbitmq:3.11-management-alpine
     ports:
       - 5672:5672 #main port
       - 15672:15672 #management port
+    networks:
+      custom:
   auction-svc:
     image: 1811063460/auction-svc:latest
     build:
@@ -41,6 +53,8 @@ services:
     ports:
       - 5073:80
       - 6666:6666
+    networks:
+      custom:
     depends_on:
       - postgres
       - rabbitmq
@@ -57,6 +71,8 @@ services:
       - AuctionServiceUrl=http://auction-svc
     ports:
       - 5289:80
+    networks:
+      custom:
     depends_on:
       - mongodb
       - rabbitmq
@@ -69,9 +85,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;User Id=postgres;Password=123456;Database=identity;Pooling=true;Minimum Pool Size=0;Maximum Pool Size=100
-      - AllowedIPAddress=::1;::ffff:172.19.0.1
-    ports:
-      - 5002:80
+      - AllowedIPAddress=::1;::1
+      - ClientApp=https://app.carsties.com
+      - VIRTUAL_HOST=id.carsties.com
+    networks:
+      custom:
+        ipv4_address: 10.5.0.200
     depends_on:
       - postgres
   gateway-svc:
@@ -82,8 +101,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - 5032:80
+      - ClientApp=https://app.carsties.com
+      - VIRTUAL_HOST=api.carsties.com
+    networks:
+      custom:
   bid-svc:
     image: 1811063460/bid-svc:latest
     build:
@@ -98,6 +119,8 @@ services:
       - GrpcAuction=http://auction-svc:6666
     ports:
       - 5280:80
+    networks:
+      custom:
     depends_on:
       - mongodb
       - rabbitmq
@@ -112,6 +135,8 @@ services:
       - RabbitMq__Host=rabbitmq
     ports:
       - 5179:80
+    networks:
+      custom:
     depends_on:
       - rabbitmq
   web-app:
@@ -121,16 +146,30 @@ services:
       dockerfile: frontend/web-app/dockerfile
     volumes:
       - /var/lib/web/data
-    ports: 
-      - 3000:3000
+    networks:
+      custom:
+    extra_hosts:
+      - id.carsties.com:10.5.0.200
     environment:
-      - DEFAULT_URL=http://localhost
-      - GATE_WAY_PORT=5032
-      - IDENTITY_PORT=5002
-      - DEFAULT_NEXTAUTH_LOCAL_PORT=3000
+      - NODE_ENV=production
       - GATE_WAY_SERVICE_URI=http://gateway-svc
-      - IDENTITY_SERVICE_URL=http://identity-svc
-      - NEXTAUTH_URL=http://web-app
+      - GATE_WAY_SERVICE_URI_PRODUCTION=https://api.carsties.com
+      - IDENTITY_SERVICE_URL=http://id.carsties.com
+      - NEXTAUTH_SECRET=somethingreallyreallysecret
+      - NEXTAUTH_URL=https://app.carsties.com #Change this to match with VIRTUAL_HOST
+      - NEXTAUTH_URL_INTERNAL=http://web-app:3000
+      - VIRTUAL_HOST=app.carsties.com # This is for nginx
+      - VIRTUAL_PORT=3000 # This is for nginx
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443 # this is port for ssl on nginx proxy
+    networks:
+      - custom
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./dev-certs:/etc/nginx/certs # location contains certs file for ssl
 volumes:
   pgdata:
   mongodb_data:
