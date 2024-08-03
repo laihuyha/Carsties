@@ -8,7 +8,7 @@ const LoginButton = () => {
     <Button
       outline
       onClick={() => {
-        signIn("id-server", { callbackUrl: "/" });
+        signIn("id-server", { callbackUrl: "/", redirect: false });
       }}
     >
       Login
