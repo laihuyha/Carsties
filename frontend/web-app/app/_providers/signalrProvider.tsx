@@ -6,7 +6,6 @@ import { AuctionFinished, Bid } from "@/types";
 import { Item } from "@/types/search";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { User } from "next-auth";
-import { env } from "process";
 import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { get } from "../_actions/auction-action";
@@ -22,15 +21,16 @@ const SignalrProvider = ({ children, user }: Props) => {
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const setCurrentPrice = useAuctionStore((state) => state.setCurrentPrice);
   const addBid = useBidStore((e) => e.addBid);
+  const apiUrl = process.env.NODE_ENV === "production" ? "https://api.carsties.com" : process.env.GATE_WAY_SERVICE_URI;
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl(`${env.GATE_WAY_SERVICE_URI}/notifications`)
+      .withUrl(`${apiUrl!}/notifications`)
       .withAutomaticReconnect()
       .build();
 
     setConnection(newConnection);
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     if (connection) {
