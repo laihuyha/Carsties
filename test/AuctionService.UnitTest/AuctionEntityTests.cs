@@ -3,7 +3,7 @@ using AuctionService.Entities;
 
 namespace AuctionService.UnitTest;
 
-public class AuctionEntityTest
+public class AuctionEntityTests
 {
     [Fact]
     public void HasReservePrice_ReservepriceGreaterThanZero_True()
