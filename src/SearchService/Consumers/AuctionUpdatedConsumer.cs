@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Contracts.Auction;
 using MassTransit;
 using MongoDB.Entities;
