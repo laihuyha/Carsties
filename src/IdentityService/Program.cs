@@ -1,6 +1,8 @@
 ﻿using System;
 using IdentityService;
 using Microsoft.AspNetCore.Builder;
+using Npgsql;
+using Polly;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -31,7 +33,12 @@ try
     //     Log.Information("Done seeding database. Exiting.");
     //     return;
     // }
-    await SeedData.EnsureSeedData(app);
+
+    await Policy.Handle<NpgsqlException>().WaitAndRetryAsync(5, retryAttemp => TimeSpan.FromSeconds(10))
+                .ExecuteAndCaptureAsync(async () =>
+                {
+                    await SeedData.EnsureSeedData(app);
+                });
 
     app.Run();
 }

@@ -48,6 +48,11 @@ namespace AuctionService.Extensions
                 });
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.UseMessageRetry(r =>
+                    {
+                        r.Handle<RabbitMqConnectionException>();
+                        r.Interval(5, TimeSpan.FromSeconds(30));
+                    });
                     cfg.ConfigureEndpoints(context);
 
                     // Config for publish app can use

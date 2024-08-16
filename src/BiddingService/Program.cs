@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,12 @@ builder.Services.AddMassTransit(x =>
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("bids", false));
     x.UsingRabbitMq((context, cfg) =>
     {
+        cfg.UseMessageRetry(r =>
+        {
+            r.Handle<RabbitMqConnectionException>();
+            r.Interval(5, TimeSpan.FromSeconds(30));
+        });
+
         cfg.ConfigureEndpoints(context);
 
         // Config for publish app can use
@@ -51,6 +58,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("BiddingConnection")));
+await Policy.Handle<TimeoutException>().WaitAndRetryAsync(5, retryAttemp => TimeSpan.FromSeconds(10))
+.ExecuteAndCaptureAsync(async () =>
+{
+    await DB.InitAsync("BidDb", MongoClientSettings.FromConnectionString(builder.Configuration.GetConnectionString("BiddingConnection")));
+});
+
 
 app.Run();

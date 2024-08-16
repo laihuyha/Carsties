@@ -27,6 +27,12 @@ namespace SearchService.Extensions.MassTransit
                 x.AddConfigureEndpointsCallback((name, cfg) => { cfg.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10))); });
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                    cfg.UseMessageRetry(r =>
+                    {
+                        r.Handle<RabbitMqConnectionException>();
+                        r.Interval(5, TimeSpan.FromSeconds(30));
+                    });
+
                     cfg.ReceiveEndpoint("search-auction-created", e =>
                     {
                         e.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
